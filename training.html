@@ -3,266 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ARMY Training Camp</title>
+    <title>MOA Training Academy | Project-promise</title>
     <script src="songs.js"></script>
     <style>
-        /* 全域設定 */
-        body { background: #000; color: #fff; font-family: 'Arial', sans-serif; padding: 20px; text-align: center; }
-        h1 { color: #AB46D2; text-shadow: 0 0 10px #AB46D2; }
-        a { color: #888; text-decoration: none; transition: color 0.3s; }
-        a:hover { color: #AB46D2; }
+        /* --- 全域設定：5時53分的魔法天空 --- */
+        body { 
+            background: #05161A; /* Deep Space Green */
+            color: #fff; 
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        h1 { color: #00E5FF; text-shadow: 0 0 15px rgba(0, 229, 255, 0.7); }
+        a { color: #00cccc; text-decoration: none; transition: color 0.3s; font-size: 14px; }
+        a:hover { color: #00E5FF; text-shadow: 0 0 8px #00E5FF; }
 
-        /* 進度條區域 */
-        #army-name { 
-            padding: 12px; border-radius: 5px; border: 2px solid #AB46D2; 
-            background: #222; color: #fff; width: 80%; max-width: 300px;
+        /* --- 輸入與進度區域 --- */
+        #moa-name { 
+            padding: 12px; border-radius: 5px; border: 2px solid #00E5FF; 
+            background: #0a2a2f; color: #fff; width: 80%; max-width: 300px;
             font-size: 16px; text-align: center; outline: none;
             margin-top: 10px;
         }
-        #army-name:focus { box-shadow: 0 0 15px rgba(171, 70, 210, 0.5); }
+        #moa-name:focus { box-shadow: 0 0 15px rgba(0, 229, 255, 0.5); }
 
         #progress-container { 
-            width: 100%; max-width: 400px; background: #333; height: 20px; 
-            border-radius: 10px; margin: 20px auto; overflow: hidden; border: 1px solid #555;
+            width: 100%; max-width: 400px; background: #103a41; height: 18px; 
+            border-radius: 9px; margin: 25px auto; overflow: hidden; border: 1px solid #1a5c66;
         }
-        #progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #AB46D2, #7a2c9e); transition: width 0.3s; }
+        #progress-bar { 
+            width: 0%; height: 100%; 
+            background: linear-gradient(90deg, #00E5FF, #0081a7); 
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
         
-        /* 歌曲清單 */
-        .song-list { text-align: left; max-width: 400px; margin: 0 auto; background: #111; border-radius: 10px; padding: 10px; }
-        .song-item { padding: 15px; border-bottom: 1px solid #333; display: flex; align-items: center; font-size: 18px; }
+        /* --- 歌曲清單設計 --- */
+        .song-list { text-align: left; max-width: 400px; margin: 0 auto; background: rgba(0, 0, 0, 0.3); border-radius: 15px; padding: 10px; border: 1px solid #1a5c66; }
+        .song-item { padding: 15px; border-bottom: 1px solid #1a5c66; display: flex; align-items: center; font-size: 18px; transition: background 0.3s; }
         .song-item:last-child { border-bottom: none; }
-        .song-item input { margin-right: 15px; transform: scale(1.5); accent-color: #AB46D2; cursor: pointer; }
+        .song-item input { margin-right: 15px; transform: scale(1.4); accent-color: #00E5FF; cursor: pointer; }
 
-        /* 領取按鈕 */
+        /* --- 領取按鈕 (Tiffany Blue 輝光) --- */
         #btn-cert { 
-            background: #444; color: #888; border: none; padding: 15px; 
+            background: #222; color: #555; border: none; padding: 15px; 
             border-radius: 50px; width: 100%; max-width: 400px; 
             margin-top: 30px; font-size: 18px; transition: all 0.3s;
+            border: 1px solid #333;
         }
         #btn-cert.unlocked { 
-            background: linear-gradient(45deg, #AB46D2, #5a189a); 
-            color: white; cursor: pointer; 
-            box-shadow: 0 0 20px #AB46D2; animation: pulse 2s infinite; 
-            font-weight: bold;
+            background: linear-gradient(45deg, #00E5FF, #0081a7); 
+            color: #05161A; cursor: pointer; 
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.6); animation: pulse 2s infinite; 
+            font-weight: bold; border: none;
         }
 
-        /* --- 移植過來的證書 CSS --- */
+        /* --- 證書 Overlay --- */
         #certificate-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95);
+            background: rgba(5, 22, 26, 0.98);
             z-index: 9999;
-            display: none; /* JS 控制顯示 */
+            display: none;
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            animation: fadeIn 0.5s ease-out;
-            backdrop-filter: blur(5px);
+            animation: fadeIn 0.6s ease-out;
+            backdrop-filter: blur(8px);
         }
 
         .cert-card {
-            background: #111;
-            border: 2px solid #444;
+            background: #0a2a2f;
+            border: 2px solid #00E5FF;
             width: 85%;
             max-width: 350px;
-            padding: 30px;
-            border-radius: 10px;
+            padding: 35px 25px;
+            border-radius: 20px;
             text-align: center;
             position: relative;
-            box-shadow: 0 0 50px rgba(171, 70, 210, 0.3);
+            box-shadow: 0 0 60px rgba(0, 229, 255, 0.2);
         }
 
+        /* 珊瑚紅印章 */
         .stamp {
             position: absolute;
-            top: 15px;
+            top: 20px;
             right: 15px;
-            border: 3px solid #ff0000;
-            color: #ff0000;
-            font-size: 14px;
+            border: 3px solid #FF5252;
+            color: #FF5252;
+            font-size: 12px;
             font-weight: bold;
-            padding: 5px 10px;
-            transform: rotate(-15deg);
-            opacity: 0.8;
-            letter-spacing: 2px;
+            padding: 4px 8px;
+            transform: rotate(-12deg);
+            opacity: 0.9;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .neon-text {
             color: #fff;
-            text-shadow: 0 0 10px #AB46D2, 0 0 20px #AB46D2, 0 0 40px #AB46D2;
-            font-family: 'Courier New', monospace; /* 更有打字機/科技感 */
+            text-shadow: 0 0 10px #00E5FF, 0 0 20px #00E5FF;
+            font-family: 'Courier New', monospace;
         }
 
-        .cert-content p { font-size: 16px; margin: 5px 0; color: #ccc; }
-        .cert-content strong { color: #fff; font-size: 20px; border-bottom: 1px solid #AB46D2; padding-bottom: 2px; }
+        .cert-content p { font-size: 16px; margin: 8px 0; color: #ade8f4; }
+        .cert-content strong { color: #fff; font-size: 22px; border-bottom: 2px solid #00E5FF; padding-bottom: 2px; }
 
         .close-btn {
             background: transparent;
-            border: 1px solid #666;
-            color: #888;
+            border: 1px solid #00E5FF;
+            color: #00E5FF;
             padding: 10px 30px;
             border-radius: 20px;
-            margin-top: 25px;
+            margin-top: 30px;
             cursor: pointer;
             font-size: 14px;
             transition: all 0.3s;
         }
-        .close-btn:hover { border-color: #AB46D2; color: #fff; background: rgba(171, 70, 210, 0.2); }
+        .close-btn:hover { background: #00E5FF; color: #05161A; }
 
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.03); } 100% { transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
-    <h1 style="margin-bottom: 5px;">💜 特訓中心</h1>
-    <div style="font-size: 12px; color: #666; margin-bottom: 20px;">PROJECT BORAHAE: TRAINING GROUND</div>
+    <h1 style="margin-bottom: 5px;">🪄 魔法特訓中心</h1>
+    <div style="font-size: 12px; color: #00cccc; margin-bottom: 20px; letter-spacing: 2px;">PROJECT PROMISE: THE MAGIC HOUR</div>
     
-    <a href="index.html">← 回首頁 (Back)</a>
+    <a href="index.html">← 離開學院 (Leave Academy)</a>
     <br><br>
     
-    <input type="text" id="army-name" placeholder="請輸入你的暱稱 (Your Name)">
+    <input type="text" id="moa-name" placeholder="請輸入你的暱稱 (MOA Name)">
     
     <div id="progress-container"><div id="progress-bar"></div></div>
-    <div id="progress-text" style="color: #AB46D2; font-weight: bold;">0 / 2</div>
+    <div id="progress-text" style="color: #00E5FF; font-weight: bold; font-size: 14px;">0 / 0</div>
 
     <div class="song-list" id="dynamic-list"></div>
 
-    <button id="btn-cert" disabled>🔒 完成所有訓練以解鎖</button>
+    <button id="btn-cert" disabled>🔒 完成所有魔法訓練以解鎖</button>
 
     <div id="certificate-overlay">
         <div class="cert-card">
-            <div class="stamp">TOP SECRET</div>
-            <h2 style="margin: 0; color: #fff; letter-spacing: 2px;">MISSION ACCOMPLISHED</h2>
-            <p style="color:#666; font-size:10px; letter-spacing: 1px; margin-top: 5px;">SPECIAL OPERATIONS: FANCHANT TRAINING</p>
+            <div class="stamp">Promise Kept</div>
+            <h2 style="margin: 0; color: #ade8f4; letter-spacing: 2px; font-size: 14px;">CONTRACT FULFILLED</h2>
+            <p style="color:#00E5FF; font-size:10px; letter-spacing: 1px; margin-top: 5px;">SPECIAL OPERATIONS: MOA FANCHANT TRAINING</p>
             
-            <div class="cert-content" style="margin-top: 20px;">
-                <h1 class="neon-text" style="font-size:32px; margin:20px 0; line-height: 1.2;">Elite<br>ARMY</h1>
+            <div class="cert-content" style="margin-top: 25px;">
+                <h1 class="neon-text" style="font-size:32px; margin:20px 0; line-height: 1.2;">Elite<br>MOA</h1>
                 <p>茲證明</p>
-                <p><strong><span id="cert-name-display">ARMY</span></strong></p>
-                <p style="margin-top: 10px;">已全數通過特訓中心考核。</p>
-                <p style="font-size:12px; color:#aaa;">(Has fully mastered the chants)</p>
+                <p><strong><span id="cert-name-display">MOA</span></strong></p>
+                <p style="margin-top: 15px;">已成功掌握 5:53 的魔法，<br>完成所有應援考核。</p>
+                <p style="font-size:12px; color:#00cccc; margin-top: 5px;">(Has fully mastered the magic chants)</p>
                 
-                <p id="cert-date-display" style="font-size:12px; color:#666; margin-top:15px; font-family: monospace;"></p>
+                <p id="cert-date-display" style="font-size:12px; color:#555; margin-top:20px; font-family: monospace;"></p>
             </div>
 
-            <div style="margin-top:25px; color:#AB46D2; font-size:12px; border-top: 1px solid #333; padding-top: 10px; width: 80%; margin-left: auto; margin-right: auto;">
-                Verified by Project Borahae
+            <div style="margin-top:25px; color:#00E5FF; font-size:11px; border-top: 1px solid #1a5c66; padding-top: 15px; width: 85%; margin-left: auto; margin-right: auto; opacity: 0.8;">
+                Magic verified by Project Promise
             </div>
             
             <button class="close-btn" onclick="document.getElementById('certificate-overlay').style.display='none'">
-                關閉並返回 (截圖留念)
+                收進魔法口袋 (截圖留念)
             </button>
         </div>
     </div>
 
 <script>
-        // 設定每首歌統一的練習目標次數
         const TARGET_COUNT = 3;
-
         const container = document.getElementById('dynamic-list');
         const progressBar = document.getElementById('progress-bar');
         const progressText = document.getElementById('progress-text');
         const btnCert = document.getElementById('btn-cert');
-        const nameInput = document.getElementById('army-name');
+        const nameInput = document.getElementById('moa-name');
 
         function initTraining() {
-            // 🛑 1. 檢查 songLibrary 是否存在
             if (typeof songLibrary === 'undefined') {
-                container.innerHTML = "<p style='color:red'>找不到 songLibrary！<br>請確認 songs.js 已載入。</p>";
+                container.innerHTML = "<p style='color:#FF5252'>找不到魔法書 (songLibrary)！</p>";
                 return;
             }
 
-            container.innerHTML = ""; // 清空容器
+            container.innerHTML = ""; 
             let completedCount = 0;
-            
-            // 🔄 2. 將物件轉換為陣列來跑迴圈
-            // Object.entries 會把 { key: val } 轉成 [key, val]
             const songEntries = Object.entries(songLibrary);
             const totalSongs = songEntries.length;
 
             songEntries.forEach(([id, data], index) => {
-                // id 就是 "mic_drop" 或 "dna"
-                // data.title 就是 "🎤 MIC Drop"
-                
                 const countKey = `${id}_count`;
                 const currentCount = parseInt(localStorage.getItem(countKey) || '0');
                 const isDone = currentCount >= TARGET_COUNT;
 
                 if (isDone) completedCount++;
 
-                // 建立 HTML 元素
                 const label = document.createElement('label');
                 label.className = 'song-item';
                 
-                // Checkbox
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.checked = isDone;
-                checkbox.disabled = true; // 鎖定狀態
+                checkbox.disabled = true; 
 
-                // 文字描述 (顯示 data.title)
                 const textSpan = document.createElement('span');
                 textSpan.innerText = `${index + 1}. ${data.title}`;
 
-                // 狀態顯示 (ex: ✅ 3/3)
                 const statusSpan = document.createElement('span');
                 statusSpan.style.marginLeft = 'auto';
                 statusSpan.style.fontSize = '12px';
                 
                 if (isDone) {
-                    statusSpan.innerHTML = `✅ (${currentCount}/${TARGET_COUNT})`;
-                    statusSpan.style.color = '#00ff00';
+                    statusSpan.innerHTML = `⭐ (${currentCount}/${TARGET_COUNT})`;
+                    statusSpan.style.color = '#00E5FF';
+                    statusSpan.style.textShadow = '0 0 5px #00E5FF';
                 } else {
-                    statusSpan.innerHTML = `💪 (${currentCount}/${TARGET_COUNT})`;
-                    statusSpan.style.color = '#888';
+                    statusSpan.innerHTML = `🪄 (${currentCount}/${TARGET_COUNT})`;
+                    statusSpan.style.color = '#1a5c66';
                 }
 
-                // 組裝
                 label.appendChild(checkbox);
                 label.appendChild(textSpan);
                 label.appendChild(statusSpan);
                 container.appendChild(label);
             });
 
-            // 更新進度條 UI
-            const percent = (completedCount / totalSongs) * 100;
+            const percent = totalSongs > 0 ? (completedCount / totalSongs) * 100 : 0;
             progressBar.style.width = percent + "%";
-            progressText.innerText = `已完成 ${completedCount} / ${totalSongs}`;
+            progressText.innerText = `修煉進度：${completedCount} / ${totalSongs}`;
 
-            // 解鎖證書邏輯
             if (completedCount === totalSongs && totalSongs > 0) {
                 btnCert.disabled = false;
                 btnCert.classList.add('unlocked');
-                btnCert.innerHTML = "🏆 領取菁英證書 <br><span style='font-size:12px'>(Claim Certificate)</span>";
+                btnCert.innerHTML = "🏆 領取菁英 MOA 證書 <br><span style='font-size:12px'>(Claim MOA Certificate)</span>";
             } else {
                 btnCert.disabled = true;
                 btnCert.classList.remove('unlocked');
-                btnCert.innerText = "🔒 完成所有訓練以解鎖";
+                btnCert.innerText = "🔒 完成所有魔法訓練以解鎖";
             }
         }
 
-        // 讀取名字
-        nameInput.value = localStorage.getItem('army_name') || "";
+        // 讀取 MOA 名字
+        nameInput.value = localStorage.getItem('moa_name') || "";
         nameInput.addEventListener('input', () => {
-            localStorage.setItem('army_name', nameInput.value);
+            localStorage.setItem('moa_name', nameInput.value);
         });
 
-        // 啟動！
         initTraining();
 
-        // 證書按鈕事件
         btnCert.addEventListener('click', () => {
-            const userName = nameInput.value.trim() || "ARMY";
+            const userName = nameInput.value.trim() || "MOA";
             const now = new Date();
             const dateStr = `${now.getFullYear()}.${String(now.getMonth()+1).padStart(2,'0')}.${String(now.getDate()).padStart(2,'0')}`;
             
             document.getElementById('cert-name-display').innerText = userName;
-            document.getElementById('cert-date-display').innerText = `Date: ${dateStr}`;
+            document.getElementById('cert-date-display').innerText = `Magic Date: ${dateStr}`;
             document.getElementById('certificate-overlay').style.display = 'flex';
-            if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+            if (navigator.vibrate) navigator.vibrate([80, 40, 80]);
         });
     </script>
 </body>
 </html>
-
-
-
-
