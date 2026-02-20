@@ -143,7 +143,7 @@ if (musicToggle) {
         // 3. 更新 UI
         if (modeText) {
             modeText.innerText = "🎵 音樂模式";
-            modeText.style.color = useYoutubeMode ? "#AB46D2" : "#888"; 
+            modeText.style.color = useYoutubeMode ? "#00E5FF" : "#888"; 
         }
 
         // 4. 重置時間基準
@@ -1172,5 +1172,6 @@ function clearPTDBackgroundEffects() {
     stopPTDBackground();
     // 如果需要完全移除元素可以寫在這裡，但通常只需要 stop 即可
 }
+
 
 
