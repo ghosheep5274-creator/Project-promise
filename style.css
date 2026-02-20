@@ -1,7 +1,7 @@
-/* style.css - 最終完整版 */
+/* style.css - Project-promise (TXT 約定版) */
 
 body {
-    background-color: #000000;
+    background-color: #05161A; /* 🌌 改為深邃的魔法暗青色 */
     color: #444;
     font-family: 'Arial', sans-serif;
     text-align: center;
@@ -21,20 +21,22 @@ body {
 
 .neon-text {
     color: #fff;
-    text-shadow: 0 0 10px #AB46D2, 0 0 20px #AB46D2, 0 0 40px #AB46D2;
+    /* 🪄 核心發光改為 Tiffany Blue */
+    text-shadow: 0 0 10px #00E5FF, 0 0 20px #00E5FF, 0 0 40px #00E5FF;
     font-size: 40px;
     margin-bottom: 20px;
 }
 
 #btn-start {
-    background: #AB46D2;
-    color: white;
+    background: #00E5FF; /* Tiffany Blue */
+    color: #05161A; /* 深色字體，確保高亮背景上的對比度 */
     border: none;
     padding: 20px 40px;
     font-size: 24px;
     border-radius: 50px;
-    box-shadow: 0 0 20px #AB46D2;
+    box-shadow: 0 0 20px #00E5FF;
     cursor: pointer;
+    font-weight: bold; /* 稍微加粗更好看 */
 }
 
 /* --- 播放畫面 --- */
@@ -48,30 +50,25 @@ body {
     box-sizing: border-box;
 }
 
-/* --- 💜 視覺節拍器 (修正版：左右來回碰撞) --- */
+/* --- 🪄 視覺節拍器 --- */
 
 #metronome-container {
     width: 200px;
     height: 50px;
     margin: 0 auto 10px auto;
-    border-bottom: 2px solid rgba(171, 70, 210, 0.3);
+    border-bottom: 2px solid rgba(0, 229, 255, 0.3); /* 青藍色底線 */
     position: relative;
     display: flex;
-    justify-content: center; /* 雖然有 absolute，但這個可以留著保底 */
-    z-index: 100 !important; /* 🌟 層級 100，絕對壓過城市的 2 */
+    justify-content: center; 
+    z-index: 100 !important; 
 }
 
 #metronome-icon {
     font-size: 30px;
     position: absolute;
     top: 10px;
-    
-    /* 🔴 1. 加上這一行：開啟 GPU 硬體加速 */
     will-change: transform, left; 
-    
-    /* 🔴 2. 加上這一行：把陰影固定在這裡，不要放在動畫裡 */
-    text-shadow: 0 0 15px #AB46D2; 
-
+    text-shadow: 0 0 15px #00E5FF; /* 青藍色光暈 */
     animation: swing-beat 0.705s infinite alternate ease-in-out;
 }
 
@@ -79,11 +76,11 @@ body {
 @keyframes swing-beat {
     from { 
         left: 0; 
-        transform: rotate(-20deg) scale(1); /* 向左傾斜 */
+        transform: rotate(-20deg) scale(1); 
     }
     to { 
-        left: 170px; /* 跑到右邊 (容器寬 200 - 愛心寬 30) */
-        transform: rotate(20deg) scale(1.1); /* 向右傾斜 + 稍微變大 */
+        left: 170px; 
+        transform: rotate(20deg) scale(1.1); 
     }
 }
 
@@ -92,15 +89,15 @@ body {
     font-family: 'Courier New', monospace;
     font-size: 24px;
     font-weight: bold;
-    color: #00ff00;
+    color: #00ffcc; /* 微調為薄荷綠 */
     background-color: rgba(0, 0, 0, 0.6);
     padding: 5px 15px;
     border-radius: 5px;
-    border: 1px solid #333;
+    border: 1px solid #00E5FF;
     margin-bottom: 20px;
     width: fit-content;
     position: relative;
-    z-index: 100 !important; /* 🌟 層級 100，絕對壓過城市的 2 */
+    z-index: 100 !important; 
 }
 
 /* --- 歌詞與特效 --- */
@@ -118,26 +115,25 @@ body {
 }
 
 .active { transform: scale(1.1); color: white; }
-/* .type-chant { text-shadow: 0 0 20px #AB46D2; }*/
+
 .type-chant {
-    color: #ffffff; /* 文字本體純白 */
-    font-weight: 900; /* 特粗體，增加發光面積 */
+    color: #ffffff; 
+    font-weight: 900; 
     
-    /* 關鍵魔法：多層次陰影疊加 */
+    /* 🪄 關鍵魔法：多層次 Tiffany Blue 陰影疊加 */
     text-shadow: 
-        0 0 5px  #ffffff,   /* 第1層：緊貼文字的白光核心 (提升清晰度) */
-        0 0 15px #AB46D2,   /* 第2層：高強度的內部紫光 */
-        0 0 30px #AB46D2,   /* 第3層：中等範圍的紫光暈染 */
-        0 0 50px #AB46D2,   /* 第4層：大範圍擴散光暈 */
-        0 0 80px rgba(171, 70, 210, 0.6); /* 第5層：超大範圍的環境氛圍光 (半透明) */
+        0 0 5px  #ffffff,   
+        0 0 15px #00E5FF,   
+        0 0 30px #00E5FF,   
+        0 0 50px #00E5FF,   
+        0 0 80px rgba(0, 229, 255, 0.6); 
         
-    /* 讓它稍微放大一點點，增加衝擊力 */
     transform: scale(1.15); 
     transition: all 0.1s ease-out;
 }
-.type-sing { color: #00ffff; font-style: italic; font-size: 0.8em; text-shadow: 0 0 10px #00aaaa; }
+.type-sing { color: #b2fefa; font-style: italic; font-size: 0.8em; text-shadow: 0 0 10px #00E5FF; }
 .icon-sing::before { content: "🎤 "; }
-.type-scream { color: #ff0055; font-size: 1.2em; animation: shake 0.5s infinite; }
+.type-scream { color: #FF5252; font-size: 1.2em; animation: shake 0.5s infinite; } /* TXT 的珊瑚紅點綴 */
 .icon-scream::before { content: "😱 "; }
 .icon-wave::before { content: "🔦 "; }
 
@@ -150,10 +146,11 @@ body {
 /* --- 🚨 警告模式 --- */
 body.warning-mode {
     border: 15px solid transparent;
-    border-image: repeating-linear-gradient(45deg, #ff0000, #ff0000 10px, #000000 10px, #000000 20px) 10;
+    /* 改用珊瑚紅與深青黑的交錯，更有 TXT 的感覺 */
+    border-image: repeating-linear-gradient(45deg, #FF5252, #FF5252 10px, #05161A 10px, #05161A 20px) 10;
     animation: warning-pulse 0.5s infinite alternate;
 }
-@keyframes warning-pulse { from { box-shadow: inset 0 0 20px #ff0000; } to { box-shadow: inset 0 0 50px #ff0000; } }
+@keyframes warning-pulse { from { box-shadow: inset 0 0 20px #FF5252; } to { box-shadow: inset 0 0 50px #FF5252; } }
 
 /* --- 底部按鈕 --- */
 .controls {
@@ -166,13 +163,13 @@ body.warning-mode {
     z-index: 10;
 }
 .controls button {
-    background: rgba(50, 50, 50, 0.8);
+    background: rgba(10, 30, 35, 0.8); /* 微調按鈕背景，融入青色調 */
     color: #fff;
-    border: 1px solid #555;
-    padding: 12px;
+    border: 1px solid #00E5FF;
+    padding: 10px 5px; /* 依照後面的設定維持 */
     border-radius: 30px;
-    font-size: 14px;
-    width: 45%;
+    font-size: 13px;
+    width: 30%;
     backdrop-filter: blur(5px);
 }
 
@@ -183,10 +180,10 @@ body.warning-mode {
     right: 20px;
     width: 40px;
     height: 40px;
-    background: transparent;
-    border: 2px solid #AB46D2;
-    color: #AB46D2;
-    border-radius: 50%; /* 變圓形 */
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid #00E5FF;
+    color: #00E5FF;
+    border-radius: 50%; 
     font-size: 20px;
     font-weight: bold;
     cursor: pointer;
@@ -195,10 +192,36 @@ body.warning-mode {
 }
 
 #btn-help:hover {
-    background: #AB46D2;
-    color: white;
-    box-shadow: 0 0 10px #AB46D2;
+    background: #00E5FF;
+    color: #05161A;
+    box-shadow: 0 0 15px #00E5FF;
 }
+
+/* --- 🆕 左上角回首頁按鈕 --- */
+#btn-home {
+    position: absolute;
+    top: 20px;
+    left: 20px; 
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid #00E5FF;
+    color: #00E5FF;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s;
+}
+
+#btn-home:hover {
+    background: #00E5FF;
+    color: #05161A;
+    border-color: #00E5FF;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px #00E5FF;
+}
+
 
 /* --- 🆕 說明彈窗 (Modal) --- */
 #help-modal {
@@ -207,23 +230,23 @@ body.warning-mode {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9); /* 深黑半透明背景 */
+    background: rgba(0, 15, 20, 0.9); /* 深青黑半透明背景 */
     z-index: 9999;
-    display: none; /* 預設隱藏，由 JS 控制 */
+    display: none; 
     justify-content: center;
     align-items: center;
-    backdrop-filter: blur(5px); /* 背景模糊，更有質感 */
+    backdrop-filter: blur(8px); 
 }
 
 .help-card {
-    background: #111;
-    border: 2px solid #444;
+    background: #05161A;
+    border: 2px solid #00E5FF;
     width: 85%;
     max-width: 400px;
     padding: 25px;
     border-radius: 15px;
     text-align: left;
-    box-shadow: 0 0 30px rgba(171, 70, 210, 0.4);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
     animation: popIn 0.3s ease-out;
 }
 
@@ -232,7 +255,7 @@ body.warning-mode {
     color: #ccc;
     line-height: 1.6;
     margin-bottom: 15px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #114455; /* 改為深青色分隔線 */
     padding-bottom: 10px;
 }
 
@@ -247,13 +270,11 @@ body.warning-mode {
     to { transform: scale(1); opacity: 1; }
 }
 
-/* style.css 最下方加入 */
-
 /* 封測證書遮罩 */
 #beta-cert-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    z-index: 9999; /* 蓋在所有東西上面 */
+    background: rgba(0, 15, 20, 0.95);
+    z-index: 9999; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -263,15 +284,15 @@ body.warning-mode {
 
 /* 證書卡片本體 */
 .cert-card.beta-style {
-    background: #111;
-    border: 2px solid #444;
+    background: #05161A;
+    border: 2px solid #00E5FF;
     width: 80%;
     max-width: 350px;
     padding: 30px;
     border-radius: 10px;
     text-align: center;
     position: relative;
-    box-shadow: 0 0 50px rgba(171, 70, 210, 0.3);
+    box-shadow: 0 0 50px rgba(0, 229, 255, 0.3);
 }
 
 /* 機密印章效果 */
@@ -279,8 +300,8 @@ body.warning-mode {
     position: absolute;
     top: 10px;
     right: 10px;
-    border: 2px solid #ff0000;
-    color: #ff0000;
+    border: 2px solid #FF5252; /* 配合 TXT 改為珊瑚紅 */
+    color: #FF5252;
     font-size: 14px;
     font-weight: bold;
     padding: 5px 10px;
@@ -290,28 +311,30 @@ body.warning-mode {
 
 .close-btn {
     background: transparent;
-    border: 1px solid #666;
-    color: #888;
+    border: 1px solid #00E5FF;
+    color: #00E5FF;
     padding: 5px 20px;
     border-radius: 20px;
     margin-top: 20px;
     cursor: pointer;
+    transition: all 0.3s;
 }
 
+.close-btn:hover {
+    background: #00E5FF;
+    color: #05161A;
+}
 
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
-
-/* style.css 最下方加入 */
 
 /* 校正提示框 (Toast) */
 .toast {
     position: fixed;
-    bottom: 90px; /* 在按鈕上方 */
+    bottom: 90px; 
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(171, 70, 210, 0.9); /* 紫色背景 */
-    color: #fff;
+    background: rgba(0, 229, 255, 0.9); /* Tiffany Blue 背景 */
+    color: #05161A; /* 深色字 */
     padding: 8px 20px;
     border-radius: 20px;
     font-size: 14px;
@@ -319,11 +342,10 @@ body.warning-mode {
     opacity: 0;
     transition: opacity 0.3s;
     z-index: 999;
-    pointer-events: none; /* 讓點擊穿透 */
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    pointer-events: none; 
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
 }
 .toast.show { opacity: 1; }
-
 
 /* --- 2. 音樂切換：改為簡約設計，去除厚重外框 --- */
 .mode-switch-container {
@@ -332,14 +354,14 @@ body.warning-mode {
     justify-content: center;
     gap: 12px;
     margin-bottom: 15px;
-    background: transparent; /* 去除背景 */
+    background: transparent; 
     padding: 5px 10px;
-    border-bottom: 1px solid rgba(171, 70, 210, 0.2); /* 改用細細的底線區隔 */
+    border-bottom: 1px solid rgba(0, 229, 255, 0.2); /* 青色底線 */
     width: fit-content;
 }
 
 #mode-text {
-    font-size: 12px; /* 縮小文字，標示它是次要設定 */
+    font-size: 12px; 
     color: #888;
     font-weight: normal;
     letter-spacing: 1px;
@@ -367,65 +389,32 @@ body.warning-mode {
 
 input:checked + .slider:before {
     transform: translateX(20px);
-}
-/* style.css 最下方加入 */
-
-/* 🆕 左上角回首頁按鈕 */
-#btn-home {
-    position: absolute;
-    top: 20px;
-    left: 20px; /* 跟 Help 按鈕對稱 */
-    width: 40px;
-    height: 40px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 2px solid #666;
-    color: #fff;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    z-index: 100;
-    transition: all 0.3s;
-}
-
-#btn-home:hover {
-    background: #AB46D2;
-    border-color: #AB46D2;
-    transform: scale(1.1);
-}
-
-/* 調整底部按鈕佈局 (讓三個按鈕排排站) */
-.controls button {
-    width: 30%; /* 原本是 45%，現在改小一點塞三個 */
-    padding: 10px 5px; /* 字如果不夠放，縮小內距 */
-    font-size: 13px;
+    background-color: #00E5FF; /* 開啟時的點點變成青色 */
 }
 
 /* 暫停按鈕特別色 */
 #btn-pause {
-    border-color: #AB46D2;
-    background: rgba(171, 70, 210, 0.3);
+    border-color: #00E5FF;
+    background: rgba(0, 229, 255, 0.2);
 }
-
-/* style.css 最下方加入 */
 
 /* 🧊 讓動畫凍結的魔法 Class */
 .paused-animation {
     animation-play-state: paused !important;
-    filter: grayscale(80%); /* 加一點巧思：暫停時讓愛心變灰，更有暫停感 */
+    filter: grayscale(80%) hue-rotate(180deg); /* 暫停時加上色相旋轉，增加魔法凍結感 */
     transition: filter 0.3s;
 }
 
-
 /* 按鈕呼吸燈效果 */
 @keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(171, 70, 210, 0.7); }
-    70% { transform: scale(1.05); box-shadow: 0 0 10px 10px rgba(171, 70, 210, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(171, 70, 210, 0); }
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 10px 10px rgba(0, 229, 255, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
 }
 
 /* --- 1. 選歌單：維持焦點，增加立體感 --- */
 .song-selector-container {
-    margin-bottom: 30px; /* 增加與按鈕的距離 */
+    margin-bottom: 30px; 
     width: 85%;
     max-width: 320px;
 }
@@ -433,34 +422,32 @@ input:checked + .slider:before {
 #song-select {
     width: 100%;
     padding: 15px 25px;
-    font-size: 18px; /* 字體稍微放大 */
-    background: rgba(20, 20, 20, 0.9);
+    font-size: 18px; 
+    background: rgba(10, 20, 25, 0.9); /* 配合背景微調 */
     color: #fff;
-    border: 2px solid #AB46D2;
-    border-radius: 50px; /* 膠囊型外觀 */
+    border: 2px solid #00E5FF;
+    border-radius: 50px; 
     outline: none;
     cursor: pointer;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(171, 70, 210, 0.3); /* 加入淡淡的紫光 */
+    box-shadow: 0 4px 15px rgba(0, 229, 255, 0.3); /* 青色光暈 */
     appearance: none;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23AB46D2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    /* 🪄 關鍵修改：將箭頭 SVG 的顏色代碼 %23AB46D2 替換為 %2300E5FF (Tiffany Blue) */
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2300E5FF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
     background-repeat: no-repeat;
     background-position: right 1.2em top 50%;
     background-size: .8em auto;
 }
 
-/* style.css 加入以下代碼 */
-
 /* 針對被禁用的選項進行美化 */
 #song-select option:disabled {
-    color: #555; /* 更深的灰色，與背景區隔 */
-    font-style: italic; /* 斜體展現預告感 */
-    background-color: #1a1a1a; /* 稍微暗一點的背景 */
+    color: #555; 
+    font-style: italic; 
+    background-color: #05161A; 
 }
 
-/* 如果你想讓整個選單在展開時，未開放的歌曲看起來更神祕 */
 #song-select option[disabled]::after {
-    content: " 🔒"; /* 雖然 option 不支援 ::after，但這是一個好的設計備忘 */
+    content: " 🔒"; 
 }
 
 
@@ -1043,4 +1030,5 @@ body.butter-on #butter-wrapper { opacity: 1; }
         transform: translate3d(calc(var(--drift-x) * -1), -120vh, 0) rotate(var(--rot));
     }
 }
+
 
