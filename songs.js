@@ -1,9 +1,9 @@
 // songs.js - 純索引版
 const songLibrary = {
     "mic_drop": {
-        title: "🎤 MIC Drop",
-        videoId: "Zos_33vzX0w",
-        bpm: 85,
-        file: "lyrics/mic_drop.json" // 指向檔案
+        title: "🎤 Deja Vu",
+        videoId: "6g9IK4hYmYg",
+        bpm: 81.5,
+        file: "lyrics/deja_vu.json" // 指向檔案
     }
 };
