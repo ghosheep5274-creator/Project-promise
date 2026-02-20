@@ -319,18 +319,25 @@ function render(lyricObj) {
         void lyricBox.offsetWidth; // 觸發重繪 (Reflow) 以重啟動畫
         lyricBox.classList.add('active');
         
-        // 根據 Type 加 class
-        if (lyricObj.type === 'chant') {
-            lyricBox.classList.add('type-chant');
-            if (navigator.vibrate) navigator.vibrate(50);
-        } else if (lyricObj.type === 'sing') {
-            lyricBox.classList.add('type-sing', 'icon-sing');
-        } else if (lyricObj.type === 'scream') {
-            lyricBox.classList.add('type-scream', 'icon-scream');
-            if (navigator.vibrate) navigator.vibrate([50,30,50]);
-        } else if (lyricObj.type === 'wave') {
-            lyricBox.classList.add('type-sing', 'icon-wave');
-        }
+// 根據 Type 加 class (Project-promise TXT Edition)
+if (lyricObj.type === 'chant') {
+    // 應援口號：Tiffany Blue 五層青色發光
+    lyricBox.classList.add('type-chant');
+    if (navigator.vibrate) navigator.vibrate(50); 
+} 
+else if (lyricObj.type === 'sing') {
+    // 大合唱：薄荷綠 (Mint Green)
+    lyricBox.classList.add('type-sing', 'icon-sing');
+} 
+else if (lyricObj.type === 'scream') {
+    // 尖叫或團名連喊：珊瑚紅 (Coral Red) + 強烈震動特效
+    lyricBox.classList.add('type-scream', 'icon-scream');
+    if (navigator.vibrate) navigator.vibrate([50, 30, 50]); 
+} 
+else if (lyricObj.type === 'wave') {
+    // 魔法星星：替換原本的愛心圖示，展現「約定」的氛圍
+    lyricBox.classList.add('type-sing', 'icon-star'); 
+}
         
         lastRenderedText = lyricObj.text;
     }
@@ -1172,6 +1179,7 @@ function clearPTDBackgroundEffects() {
     stopPTDBackground();
     // 如果需要完全移除元素可以寫在這裡，但通常只需要 stop 即可
 }
+
 
 
 
