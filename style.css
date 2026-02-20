@@ -1,0 +1,1046 @@
+/* style.css - 最終完整版 */
+
+body {
+    background-color: #000000;
+    color: #444;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    overflow: hidden; /* 禁止滑動 */
+    margin: 0;
+    height: 100vh;
+}
+
+/* --- 啟動畫面 --- */
+#start-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.neon-text {
+    color: #fff;
+    text-shadow: 0 0 10px #AB46D2, 0 0 20px #AB46D2, 0 0 40px #AB46D2;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+#btn-start {
+    background: #AB46D2;
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    font-size: 24px;
+    border-radius: 50px;
+    box-shadow: 0 0 20px #AB46D2;
+    cursor: pointer;
+}
+
+/* --- 播放畫面 --- */
+#play-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* 底部對齊 */
+    align-items: center;
+    height: 100vh;
+    padding-bottom: 110px;
+    box-sizing: border-box;
+}
+
+/* --- 💜 視覺節拍器 (修正版：左右來回碰撞) --- */
+
+#metronome-container {
+    width: 200px;
+    height: 50px;
+    margin: 0 auto 10px auto;
+    border-bottom: 2px solid rgba(171, 70, 210, 0.3);
+    position: relative;
+    display: flex;
+    justify-content: center; /* 雖然有 absolute，但這個可以留著保底 */
+    z-index: 100 !important; /* 🌟 層級 100，絕對壓過城市的 2 */
+}
+
+#metronome-icon {
+    font-size: 30px;
+    position: absolute;
+    top: 10px;
+    
+    /* 🔴 1. 加上這一行：開啟 GPU 硬體加速 */
+    will-change: transform, left; 
+    
+    /* 🔴 2. 加上這一行：把陰影固定在這裡，不要放在動畫裡 */
+    text-shadow: 0 0 15px #AB46D2; 
+
+    animation: swing-beat 0.705s infinite alternate ease-in-out;
+}
+
+/* 定義動作：從最左邊 (from) 到最右邊 (to) */
+@keyframes swing-beat {
+    from { 
+        left: 0; 
+        transform: rotate(-20deg) scale(1); /* 向左傾斜 */
+    }
+    to { 
+        left: 170px; /* 跑到右邊 (容器寬 200 - 愛心寬 30) */
+        transform: rotate(20deg) scale(1.1); /* 向右傾斜 + 稍微變大 */
+    }
+}
+
+/* --- ⏱️ 同步時鐘 --- */
+#sync-timer {
+    font-family: 'Courier New', monospace;
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ff00;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 5px 15px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    margin-bottom: 20px;
+    width: fit-content;
+    position: relative;
+    z-index: 100 !important; /* 🌟 層級 100，絕對壓過城市的 2 */
+}
+
+/* --- 歌詞與特效 --- */
+#lyric-box {
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.2;
+    width: 90%;
+    max-width: 600px;
+    word-wrap: break-word;
+    min-height: 80px;
+    transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative; 
+    z-index: 99;
+}
+
+.active { transform: scale(1.1); color: white; }
+/* .type-chant { text-shadow: 0 0 20px #AB46D2; }*/
+.type-chant {
+    color: #ffffff; /* 文字本體純白 */
+    font-weight: 900; /* 特粗體，增加發光面積 */
+    
+    /* 關鍵魔法：多層次陰影疊加 */
+    text-shadow: 
+        0 0 5px  #ffffff,   /* 第1層：緊貼文字的白光核心 (提升清晰度) */
+        0 0 15px #AB46D2,   /* 第2層：高強度的內部紫光 */
+        0 0 30px #AB46D2,   /* 第3層：中等範圍的紫光暈染 */
+        0 0 50px #AB46D2,   /* 第4層：大範圍擴散光暈 */
+        0 0 80px rgba(171, 70, 210, 0.6); /* 第5層：超大範圍的環境氛圍光 (半透明) */
+        
+    /* 讓它稍微放大一點點，增加衝擊力 */
+    transform: scale(1.15); 
+    transition: all 0.1s ease-out;
+}
+.type-sing { color: #00ffff; font-style: italic; font-size: 0.8em; text-shadow: 0 0 10px #00aaaa; }
+.icon-sing::before { content: "🎤 "; }
+.type-scream { color: #ff0055; font-size: 1.2em; animation: shake 0.5s infinite; }
+.icon-scream::before { content: "😱 "; }
+.icon-wave::before { content: "🔦 "; }
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+/* --- 🚨 警告模式 --- */
+body.warning-mode {
+    border: 15px solid transparent;
+    border-image: repeating-linear-gradient(45deg, #ff0000, #ff0000 10px, #000000 10px, #000000 20px) 10;
+    animation: warning-pulse 0.5s infinite alternate;
+}
+@keyframes warning-pulse { from { box-shadow: inset 0 0 20px #ff0000; } to { box-shadow: inset 0 0 50px #ff0000; } }
+
+/* --- 底部按鈕 --- */
+.controls {
+    position: fixed;
+    bottom: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 10;
+}
+.controls button {
+    background: rgba(50, 50, 50, 0.8);
+    color: #fff;
+    border: 1px solid #555;
+    padding: 12px;
+    border-radius: 30px;
+    font-size: 14px;
+    width: 45%;
+    backdrop-filter: blur(5px);
+}
+
+/* --- 🆕 說明按鈕 (右上角懸浮) --- */
+#btn-help {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 2px solid #AB46D2;
+    color: #AB46D2;
+    border-radius: 50%; /* 變圓形 */
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s;
+}
+
+#btn-help:hover {
+    background: #AB46D2;
+    color: white;
+    box-shadow: 0 0 10px #AB46D2;
+}
+
+/* --- 🆕 說明彈窗 (Modal) --- */
+#help-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* 深黑半透明背景 */
+    z-index: 9999;
+    display: none; /* 預設隱藏，由 JS 控制 */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px); /* 背景模糊，更有質感 */
+}
+
+.help-card {
+    background: #111;
+    border: 2px solid #444;
+    width: 85%;
+    max-width: 400px;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: left;
+    box-shadow: 0 0 30px rgba(171, 70, 210, 0.4);
+    animation: popIn 0.3s ease-out;
+}
+
+.help-content p {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.help-content strong {
+    color: #fff;
+    font-size: 16px;
+}
+
+/* 彈窗出現動畫 */
+@keyframes popIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* style.css 最下方加入 */
+
+/* 封測證書遮罩 */
+#beta-cert-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 9999; /* 蓋在所有東西上面 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 證書卡片本體 */
+.cert-card.beta-style {
+    background: #111;
+    border: 2px solid #444;
+    width: 80%;
+    max-width: 350px;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 50px rgba(171, 70, 210, 0.3);
+}
+
+/* 機密印章效果 */
+.stamp {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 2px solid #ff0000;
+    color: #ff0000;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    transform: rotate(-15deg);
+    opacity: 0.7;
+}
+
+.close-btn {
+    background: transparent;
+    border: 1px solid #666;
+    color: #888;
+    padding: 5px 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+
+@keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+
+/* style.css 最下方加入 */
+
+/* 校正提示框 (Toast) */
+.toast {
+    position: fixed;
+    bottom: 90px; /* 在按鈕上方 */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(171, 70, 210, 0.9); /* 紫色背景 */
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 999;
+    pointer-events: none; /* 讓點擊穿透 */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.toast.show { opacity: 1; }
+
+
+/* --- 2. 音樂切換：改為簡約設計，去除厚重外框 --- */
+.mode-switch-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    background: transparent; /* 去除背景 */
+    padding: 5px 10px;
+    border-bottom: 1px solid rgba(171, 70, 210, 0.2); /* 改用細細的底線區隔 */
+    width: fit-content;
+}
+
+#mode-text {
+    font-size: 12px; /* 縮小文字，標示它是次要設定 */
+    color: #888;
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+/* 縮小 Toggle Switch 的尺寸，讓它更精緻 */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.slider {
+    background-color: #333;
+    border-radius: 20px;
+}
+
+.slider:before {
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+/* style.css 最下方加入 */
+
+/* 🆕 左上角回首頁按鈕 */
+#btn-home {
+    position: absolute;
+    top: 20px;
+    left: 20px; /* 跟 Help 按鈕對稱 */
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid #666;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s;
+}
+
+#btn-home:hover {
+    background: #AB46D2;
+    border-color: #AB46D2;
+    transform: scale(1.1);
+}
+
+/* 調整底部按鈕佈局 (讓三個按鈕排排站) */
+.controls button {
+    width: 30%; /* 原本是 45%，現在改小一點塞三個 */
+    padding: 10px 5px; /* 字如果不夠放，縮小內距 */
+    font-size: 13px;
+}
+
+/* 暫停按鈕特別色 */
+#btn-pause {
+    border-color: #AB46D2;
+    background: rgba(171, 70, 210, 0.3);
+}
+
+/* style.css 最下方加入 */
+
+/* 🧊 讓動畫凍結的魔法 Class */
+.paused-animation {
+    animation-play-state: paused !important;
+    filter: grayscale(80%); /* 加一點巧思：暫停時讓愛心變灰，更有暫停感 */
+    transition: filter 0.3s;
+}
+
+
+/* 按鈕呼吸燈效果 */
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(171, 70, 210, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 10px 10px rgba(171, 70, 210, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(171, 70, 210, 0); }
+}
+
+/* --- 1. 選歌單：維持焦點，增加立體感 --- */
+.song-selector-container {
+    margin-bottom: 30px; /* 增加與按鈕的距離 */
+    width: 85%;
+    max-width: 320px;
+}
+
+#song-select {
+    width: 100%;
+    padding: 15px 25px;
+    font-size: 18px; /* 字體稍微放大 */
+    background: rgba(20, 20, 20, 0.9);
+    color: #fff;
+    border: 2px solid #AB46D2;
+    border-radius: 50px; /* 膠囊型外觀 */
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(171, 70, 210, 0.3); /* 加入淡淡的紫光 */
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23AB46D2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.2em top 50%;
+    background-size: .8em auto;
+}
+
+/* style.css 加入以下代碼 */
+
+/* 針對被禁用的選項進行美化 */
+#song-select option:disabled {
+    color: #555; /* 更深的灰色，與背景區隔 */
+    font-style: italic; /* 斜體展現預告感 */
+    background-color: #1a1a1a; /* 稍微暗一點的背景 */
+}
+
+/* 如果你想讓整個選單在展開時，未開放的歌曲看起來更神祕 */
+#song-select option[disabled]::after {
+    content: " 🔒"; /* 雖然 option 不支援 ::after，但這是一個好的設計備忘 */
+}
+
+
+/* 🌸 櫻花特效樣式 */
+.sakura-petal {
+    position: fixed;
+    top: -10px;
+    background-color: #ffc0cb; /* 淺粉紅 */
+    border-radius: 100% 0 100% 0; /* 花瓣形狀 */
+    opacity: 0.8;
+    z-index: 5; /* 在背景之上，但在文字之下(若要蓋住文字可設99) */
+    pointer-events: none; /* 讓滑鼠可以穿透花瓣操作 */
+    animation: fall linear forwards;
+}
+
+/* 飄落動畫：往下掉 + 旋轉 + 左右搖擺 */
+@keyframes fall {
+    0% {
+        top: -10%;
+        transform: translateX(0) rotate(0deg);
+        opacity: 0.8;
+    }
+    100% {
+        top: 110%; /* 掉出螢幕下方 */
+        transform: translateX(20px) rotate(360deg); /* 隨風飄一點 */
+        opacity: 0;
+    }
+}
+
+/* ===========================
+   🔥 I Need U 特效組：夕陽 + 餘燼
+=========================== */
+
+/* 1. 夕陽背景罩層 (微調版) */
+#sunset-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0;
+    
+    /* 👇 改成較深沉、不刺眼的漸層 (Deep Blue -> Dark Purple -> Muted Orange) */
+    background: linear-gradient(to bottom, 
+        rgba(15, 32, 39, 0.9), 
+        rgba(32, 58, 67, 0.8), 
+        rgba(44, 83, 100, 0.6), 
+        rgba(255, 69, 0, 0.4)
+    );
+    
+    z-index: 1; 
+    transition: opacity 3s ease-in-out; 
+    pointer-events: none;
+    will-change: opacity; /* 告訴瀏覽器：只有透明度會變 */
+}
+
+/* 啟動時的狀態 */
+#sunset-overlay.active {
+    /* 👇 這裡原本是 0.8，改成 0.3 或 0.4 (讓它變得很透) */
+    opacity: 0.8; 
+}
+
+
+
+/* 2. 火星餘燼粒子 */
+.ember-particle {
+    position: fixed;
+    bottom: -20px; /* 從畫面外下方開始 */
+    /* 火星核心顏色：亮橘黃 */
+    background: radial-gradient(circle, #fff700 0%, #ff4500 40%, transparent 100%);
+    border-radius: 50%;
+    /* 發光暈影 */
+    box-shadow: 0 0 5px #ff4500, 0 0 15px #ff8c00; 
+    opacity: 0;
+    z-index: 5; /* 在夕陽之上，但在文字之下 */
+    pointer-events: none;
+    animation: emberRise linear forwards;
+    will-change: transform, opacity; /* 效能優化 */
+}
+
+/* 火星向上飄升動畫 */
+@keyframes emberRise {
+    0% {
+        bottom: -20px;
+        transform: translateX(0) scale(1);
+        opacity: 0;
+    }
+    10% { opacity: 1; } /* 快速出現 */
+    50% { opacity: 0.7; transform: translateX(var(--drift)) scale(0.8); } /* 中途飄移+變暗 */
+    100% {
+        bottom: 105vh; /* 飄出頂部 */
+        transform: translateX(calc(var(--drift) * 1.5)) scale(0.2); /* 繼續飄+變很小 */
+        opacity: 0;
+    }
+}
+
+/* ===========================
+   💖 Boy With Luv 特效組：愛之城
+=========================== */
+/* style.css - 💖 Boy With Luv 特效組 (午夜藍調版) */
+
+/* 1. 城市容器 */
+#bwl-city {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40vh; 
+    display: flex;
+    align-items: flex-end; 
+    justify-content: center;
+    z-index: 2; 
+    opacity: 0;
+    transition: opacity 2s ease;
+    pointer-events: none;
+}
+
+/* 2. 單棟建築物 (半透明深藍) + 垂直漸層 (頂部透明 -> 底部深色) */
+.building {
+    /* 🔴 關鍵修改：改成垂直漸層 (深藍 -> 純黑) */
+    /* 這會讓建築物有「受光面」和「背光面」，看起來更立體 */
+    background: linear-gradient(to bottom, #1a237e 0%, #000000 80%);
+
+    margin-left: -2%;
+    /* 稍微加強一點陰影，強調前後關係 */
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.9);
+
+    border-top-left-radius: 4px; /* 稍微加大圓角 */
+    border-top-right-radius: 4px;
+    position: relative;
+    transition: all 1s ease;
+    overflow: hidden;
+    z-index: 1;
+}
+
+
+/* 讓偶數棟的層級高一點，製造前後錯落感 */
+.building:nth-child(even) {
+    z-index: 2;
+    /* 偶數棟稍微亮一點點，增加層次 */
+    background: linear-gradient(to bottom, rgba(10, 25, 80, 0.3) 0%, rgba(10, 25, 80, 0.95) 100%);
+}
+
+/* 1. 定義一個窗戶閃爍的動畫 */
+@keyframes broadway-flicker {
+  0%, 100% { opacity: 1; box-shadow: 0 0 5px #ffd700, 0 0 15px #ff8c00; }
+  50% { opacity: 0.6; box-shadow: 0 0 2px #ffd700, 0 0 5px #ff4500; }
+}
+
+/* 2. 更新 .city-window 樣式 */
+.city-window {
+  /* 保持您原有的定位與形狀設定 */
+  position: absolute; /* 假設您已有此設定 */
+  height: 2px; /* 假設您已有此設定，維持橫條狀 */
+  background-color: #ffd700; /* 明亮的金黃色 */
+
+  /* 添加更豐富、偏暖橘色的光暈，營造百老匯氛圍 */
+  box-shadow: 0 0 5px #ffd700, 0 0 15px #ff8c00;
+
+  /* 應用閃爍動畫 */
+  animation: broadway-flicker 3s infinite alternate ease-in-out;
+}
+
+/* 3. 利用 nth-child 為不同窗戶製造隨機感，打破死板 */
+.city-window:nth-child(odd) {
+  animation-duration: 2.3s; /* 奇數窗戶閃爍速度不同 */
+  animation-delay: 0.5s; /* 加上延遲 */
+}
+.city-window:nth-child(3n) {
+  animation-duration: 3.7s; /* 每三個窗戶又有不同的速度 */
+  animation-delay: 1.2s;
+}
+
+/* --- 階段 1: 朦朧模式 --- */
+body.city-stage-1 #bwl-city { opacity: 0.8; filter: blur(2px); }
+body.city-stage-1 .building {
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.05); /* 極淡輪廓 */
+}
+body.city-stage-1 .city-window { opacity: 0.2; } /* 非常暗 */
+
+/* --- 階段 2: 霓虹全開 (柔和透明版) --- */
+body.city-stage-2 #bwl-city { opacity: 1; filter: blur(0); }
+body.city-stage-2 .building {
+    /* 建築本體稍微變亮，但維持透明感 */
+    background-color: rgba(10, 26, 92, 0.7); 
+    
+    /* 🌸 霓虹光暈也調得非常淡且透明 */
+    box-shadow: 
+        0 0 15px rgba(138, 43, 226, 0.3), 
+        0 0 30px rgba(255, 105, 180, 0.2);
+}
+body.city-stage-2 .city-window { 
+    opacity: 1; 
+    /* 窗戶光暈極淡，只剩氛圍 */
+    box-shadow: 0 0 5px rgba(255, 250, 205, 0.5); 
+}
+
+/* --- 階段 3: 煙火粒子 --- */
+.firework-particle {
+    position: absolute;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    z-index: 3;
+    animation: explode 1s ease-out forwards;
+}
+
+@keyframes explode {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+
+
+
+/* ===========================
+   🔮 Magic Shop 特效組：魔法星空
+=========================== */
+
+/* 1. 魔法夜空背景 (預設隱藏) */
+#magic-sky {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at bottom, #2E004E 0%, #190028 40%, #000000 100%);
+    z-index: 1; 
+    opacity: 0;
+    
+    /* 🔴 修改：原本是 3s，改成 1s 讓關閉更乾脆 */
+    transition: opacity 1s ease-in-out; 
+    
+    pointer-events: none;
+}
+
+/* 🔴 新增：當開啟時，變回慢速淡入 (3s) */
+/* 這樣就會有：慢慢浮現(3s) -> 快速消失(1s) 的效果 */
+body.magic-stage-1 #magic-sky {
+    opacity: 1;
+    transition: opacity 3s ease-in-out;
+}
+
+
+/* 2. 星星 (預設不閃爍) */
+.magic-star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    opacity: 0; /* 預設隱藏 */
+    box-shadow: 0 0 4px #fff; /* 微微發光 */
+    will-change: opacity; /* 效能優化 */
+}
+
+/* 星星閃爍動畫 */
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 8px #fff; }
+}
+
+/* 3. 流星 (Shooting Star) - 真實版 */
+.shooting-star {
+    position: absolute;
+    /* 🔴 修改 1: 拉長流星，讓尾巴更明顯 */
+    width: 150px; 
+    /* 🔴 修改 2: 稍微變細一點，讓它看起來更鋒利 */
+    height: 2px;
+    
+    /* 🔴 修改 3: 重做漸層 (關鍵！) */
+    /* 0% 是尾巴(透明), 100% 是頭部(最亮) */
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 40%, #ffffff 100%);
+    
+    /* 🔴 新增: 強烈的光暈 (模擬燃燒) */
+    /* 內圈白光，外圈帶一點點藍色的高溫感 */
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 15px rgba(150, 220, 255, 0.4);
+    
+    opacity: 0;
+    transform: rotate(45deg); /* 頭朝右下 */
+
+    /* 🔴 修改 4: 加快速度！ (瞬間劃過) */
+    /* 使用 ease-out，讓它「衝出去後稍微減速消失」，更有物理感 */
+    animation: shoot 2.0s ease-out forwards;
+    
+    will-change: transform, opacity;
+    /* 讓頭部稍微圓潤一點，不要是死板的矩形 */
+    border-radius: 50%; 
+}
+
+/* 流星劃過動畫 - 真實版 */
+@keyframes shoot {
+    0% {
+        /* 起點：稍微縮小，看不見 */
+        transform: translate(0, 0) rotate(45deg) scale(0.8);
+        opacity: 0;
+    }
+    10% {
+        /* 瞬間爆亮！ */
+        opacity: 1; 
+    }
+    70% {
+        /* 飛行中途就開始變暗淡 (燃燒殆盡) */
+        opacity: 0.5;
+    }
+    100% {
+        /* 終點：飛得更遠(增加速度感)，並完全消失 */
+        /* 距離從 800px 增加到 1200px */
+        transform: translate(1200px, 1200px) rotate(45deg) scale(1);
+        opacity: 0;
+    }
+}
+
+/* --- 階段控制 --- */
+
+/* Stage 1: 只有夜空 (背景浮現) */
+body.magic-stage-1 #magic-sky { opacity: 1; }
+
+/* Stage 2: 星星出現 + 閃爍 */
+    /* 隨機閃爍：時間 2s~4s */
+body.magic-stage-2 .magic-star {
+    animation: twinkle 3s infinite ease-in-out alternate;
+}
+
+/* ===========================
+   🧈 Butter Melt 特效：融化奶油 (最終修正版)
+=========================== */
+
+/* style.css - 🧈 Butter 手機流暢黏稠版 (犧牲描邊換取動畫) */
+
+/* 隱藏 SVG 定義 */
+.svg-filter-container { display: none; }
+
+/* 奶油特效容器 */
+#butter-wrapper {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1; 
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+    
+    /* 🔴 關鍵修正：移除 drop-shadow！只保留 SVG 濾鏡 */
+    /* 手機無法同時處理濾鏡+陰影，移除陰影後「黏稠感」就會回來了 */
+    -webkit-filter: url('#butter-mobile-filter');
+    filter: url('#butter-mobile-filter');
+    
+    /* 效能優化 */
+    will-change: filter;
+}
+
+/* 頂部波浪 */
+.butter-svg-wave {
+    position: absolute;
+    top: -2vh; left: 0;
+    width: 100%; height: 35vh;
+    fill: url(#butter-gradient); 
+    
+    /* 蓋在水滴上面 */
+    z-index: 10; 
+
+    animation: melt-breathe 4s ease-in-out infinite alternate;
+    transform-origin: top center;
+    
+    /* 🔴 強制手機 GPU 運算 */
+    transform: translate3d(0,0,0);
+}
+
+/* 💧 水滴 */
+.butter-drop {
+    position: absolute;
+    background: linear-gradient(180deg, #FFD700 0%, #FFC107 100%);
+    z-index: 5; /* 藏在波浪後 */
+
+    /* 形狀：淚滴型 */
+    border-radius: 50% 50% 50% 50% / 65% 65% 35% 35%;
+    transform-origin: center top;
+
+    /* 物理動畫：極致的黏滯感 */
+    animation: stickySqueeze cubic-bezier(0.7, 0, 0.2, 1) infinite;
+
+    /* 🔴 關鍵修正：柔化並縮短高光 */
+    /* 原本：inset -2px -2px 1px rgba(255, 255, 255, 0.9); (太銳利) */
+    /* 修改後：增加模糊(4px)，降低亮度(0.7) */
+    box-shadow: inset -2px -5px 5px rgba(255, 255, 255, 0.7);
+    
+    /* 強制手機 GPU 運算 */
+    transform: translate3d(0,0,0);
+}
+
+/* --- 動畫區 --- */
+@keyframes melt-breathe {
+    0% { transform: scaleY(1); }
+    100% { transform: scaleY(1.05); }
+}
+
+/* 🔴 全新：擠壓落下動畫 */
+@keyframes stickySqueeze {
+    0% {
+        /* 起點：藏在波浪後面 */
+        top: 8vh;
+        /* 極度壓扁：模擬還在波浪裡積蓄力量 */
+        transform: scaleX(1.8) scaleY(0.2); 
+        opacity: 1;
+    }
+    20% {
+        /* 開始流出：還是扁的，黏在波浪邊緣 */
+        top: 12vh;
+        transform: scaleX(1.4) scaleY(0.6);
+    }
+    45% {
+        /* 瞬間拉長：重力大於黏力，像起司一樣拉絲 */
+        top: 25vh;
+        transform: scaleX(0.6) scaleY(1.8); 
+    }
+    100% {
+        /* 斷裂落下 */
+        top: 110vh;
+        transform: scaleX(0.9) scaleY(1.1);
+        opacity: 0;
+    }
+}
+
+body.butter-on #butter-wrapper { opacity: 1; }
+
+
+
+/* style.css - 🧨 Dynamite 繽紛特效 */
+
+/* 背景 Disco 濾鏡 */
+#dynamite-bg-layer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1; /* 在最底層 */
+    opacity: 0.3; /* 不要太亮，才不會遮住歌詞 */
+    transition: background 2s ease;
+}
+
+/* 繽紛碎紙花容器 */
+#dynamite-confetti-layer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1; /* 在歌詞下方 */
+    pointer-events: none;
+}
+
+/* 亮片樣式 */
+.confetti {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: #f00;
+    animation: confetti-fall linear forwards;
+}
+
+/* 亮片形狀：方形、圓形、星星 */
+.confetti.square { border-radius: 0; }
+.confetti.circle { border-radius: 50%; }
+.confetti.star { 
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); 
+}
+
+/* 落下動畫 */
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg) translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(720deg) translateX(50px);
+        opacity: 0;
+    }
+}
+
+
+
+/* style.css - 💜 Borahae 紫色氣球特效 */
+
+
+/* PTD 專用背景層 (馬卡龍色循環) */
+#ptd-bg-layer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    
+    /* 🔴 關鍵：放在最底層，但在純黑背景之上 */
+    z-index: -1; 
+    
+    /* 預設顏色 (Dynamite 粉) */
+    background-color: #FF9AA2;
+    
+    /* 讓顏色切換像呼吸一樣柔和，不要生硬跳轉 */
+    transition: background-color 3s ease;
+}
+
+
+/* 氣球容器層 */
+#purple-balloon-layer {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    
+    /* 確保在最底層，但比純色背景高 */
+    z-index: 1; 
+    
+    pointer-events: none; /* 讓點擊穿透 */
+    overflow: hidden;
+
+    /* 🟣 關鍵修正：降低亮度 (方案二) */
+    /* brightness(0.6): 亮度降為 60%，讓氣球變深沉 */
+    /* saturate(1.2): 稍微增加飽和度，避免變暗後顏色看起來髒髒的 */
+    filter: brightness(0.6) saturate(1.2);
+    
+    /* 增加一個過渡效果，如果之後要切換亮度會很平滑 */
+    transition: filter 0.5s ease;
+}
+
+/* 氣球本體 */
+.balloon {
+    position: absolute;
+    bottom: -15%; /* 從畫面外下方開始 */
+    
+    /* 🎈 美感關鍵：擬真氣球形狀 (稍微上寬下窄的橢圓) */
+    width: var(--size, 40px);
+    height: calc(var(--size, 40px) * 1.2); /* 高度是寬度的 1.2 倍 */
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    
+    /* 🎈 美感關鍵：立體光澤漸層 (預設為中紫色) */
+    /* 使用放射漸層模擬左上角的光源反射 */
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), var(--color-base) 60%, var(--color-dark) 100%);
+    
+    box-shadow: inset -3px -3px 10px rgba(0,0,0,0.1); /* 微微的內部陰影增加厚度感 */
+    
+    /* 核心動畫：向上飄 + 左右搖擺 */
+    /* duration 和 delay 由 JS 隨機控制 */
+    animation: floatUp var(--duration) ease-in infinite;
+    animation-delay: var(--delay);
+    
+    /* 強制硬體加速 */
+    transform: translate3d(0,0,0);
+    opacity: 0; /* 一開始隱藏，動畫開始才出現 */
+}
+
+/* 氣球底部的打結小尾巴 */
+.balloon::before {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20%;
+    height: 10%;
+    background: var(--color-dark); /* 使用較深的同色系 */
+    border-radius: 50%;
+}
+
+/* --- 紫色系色票 (Borahae Palette) --- */
+/* 淺紫 (Lavender Dreams) */
+.balloon.shade-1 {
+    --color-base: #DCD0FF;
+    --color-dark: #B39DDB;
+}
+/* 中紫 (Classic Borahae) */
+.balloon.shade-2 {
+    --color-base: #AB47BC;
+    --color-dark: #8E24AA;
+}
+/* 深紫 (Deep Night) */
+.balloon.shade-3 {
+    --color-base: #7B1FA2;
+    --color-dark: #4A148C;
+}
+
+/* --- 動畫關鍵影格 --- */
+@keyframes floatUp {
+    0% {
+        opacity: 0;
+        /* 從下方進場，初始位置隨機偏移 */
+        transform: translate3d(var(--drift-x), 20vh, 0) scale(0.8);
+    }
+    10% {
+        opacity: 0.9; /* 進場後變亮 */
+    }
+    100% {
+        opacity: 0; /* 到頂部消失 */
+        /* 飄到頂部畫面外，並加上最終的左右偏移和旋轉，模擬風吹 */
+        transform: translate3d(calc(var(--drift-x) * -1), -120vh, 0) rotate(var(--rot));
+    }
+}
+

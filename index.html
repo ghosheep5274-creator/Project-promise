@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1W7GH52NM1"></script>
+    <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+
+     gtag('config', 'G-1W7GH52NM1');
+    </script>
+    
+    <title>Purple Fanchant Helper</title>
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 防止手機點擊閃爍 */
+        * { -webkit-tap-highlight-color: transparent; }
+    </style>
+</head>
+<body>
+    <div id="sunset-overlay"></div>
+    <div id="start-screen">
+        <h1 class="neon-text"> Fanchant Helper</h1>
+        <button id="btn-help" onclick="toggleHelp(true)">?</button>
+        
+        <div style="font-size: 14px; color: #888; margin-bottom: 5px;">
+            Ver: <span style="color: #00ff00;">1.3</span>
+        </div>
+        <div onclick="window.location.reload(true)" style="color: #AB46D2; text-decoration: underline; cursor: pointer; font-size: 12px; margin-bottom: 30px;">
+            🔄 沒看到新歌？點我強制更新
+        </div>
+
+
+
+       <div class="song-selector-container">
+         <select id="song-select">
+          <option value="">載入歌曲中...</option>
+         </select>
+       </div>
+
+<div class="mode-switch-container">
+    <label class="switch">
+        <input type="checkbox" id="music-toggle"> <span class="slider round"></span>
+    </label>
+    <span id="mode-text" style="color: #888;">🎵 音樂模式</span>
+</div>
+        
+        <button id="btn-start">START</button>
+        
+        <a href="training.html" style="margin-top: 20px; color: #fff; text-decoration: none; border: 1px solid #AB46D2; padding: 10px 20px; border-radius: 20px; font-size: 14px;">
+            🏆 進入結業中心 (領證書)
+        </a>
+
+        <div style="font-size: 10px; color: #555; margin-top: 40px;">
+            Special thanks to ARMY for guides.<br>
+            Built with 💜.
+        </div>
+    </div>
+
+    <div id="play-screen" style="display:none;">
+        <button id="btn-home" onclick="returnToHome()">🏠</button>
+        <div id="metronome-container">
+            <div id="metronome-icon">💜</div>
+        </div>
+
+        <div id="sync-timer">00:00.0</div>
+
+        <div id="lyric-box">Waiting for beat...</div>
+        
+        <div class="controls">
+            <button onclick="adjustTime(-100)">⚡️ 字太快</button>
+            <button id="btn-pause" onclick="togglePlay()">⏸ 暫停</button>
+            <button onclick="adjustTime(100)">🐢 字太慢</button>
+        </div>
+         <div id="player-wrapper" style="position: absolute; top: -100px; left: -100px; width: 1px; height: 1px; overflow: hidden; opacity: 0.1;">
+          <div id="player"></div>
+          </div>
+    </div>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="songs.js?v=20260215"></script>
+    <script src="app.js?v=20260215"></script>
+
+    <div id="help-modal" style="display:none;">
+    <div class="help-card">
+        <h2 style="color:#AB46D2; margin-bottom:10px;">💜 作戰守則</h2>
+        
+        <div class="help-content">
+            <p><strong>1. 離線同步技巧：</strong><br>聽到音樂開始，按下 <span style="color:#AB46D2">START</span>。<br>盯著搖擺愛心💜，若撞牆時機跟鼓聲對不上，請按下方按鈕微調。</p>
+            <p><strong>2. 視覺暗號：</strong><br>
+            <span style="color:#fff; text-shadow:0 0 5px #AB46D2">紫色字</span>：用力吼 (Chant)<br>
+            <span style="color:#00ffff">青色字</span>：跟著唱 (Sing)<br>
+            <span style="color:#ff0055">紅色閃爍</span>：尖叫 (Scream)</p>
+        </div>
+
+        <button class="close-btn" onclick="toggleHelp(false)">I'm Ready!</button>
+    </div>
+</div>
+
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
