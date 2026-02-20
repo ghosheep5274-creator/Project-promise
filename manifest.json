@@ -1,8 +1,10 @@
 {
-  "name": "Purple Fanchant",
-  "short_name": "Borahae",
+  "name": "Project-promise: MOA Fanchant Academy",
+  "short_name": "Project-promise",
+  "description": "專為 MOA 設計的應援特訓中心，收錄 TXT 經典歌曲應援實戰教學。",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#AB46D2"
+  "orientation": "portrait",
+  "background_color": "#05161A",
+  "theme_color": "#00E5FF"
 }
