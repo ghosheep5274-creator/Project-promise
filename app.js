@@ -1197,37 +1197,36 @@ function clearPTDBackgroundEffects() {
 
 let blueStarInterval = null;
 
-// 初始化花叢結構 (種植多層實體花朵)
+// 初始化花叢結構 (種植 5 層實體花朵)
 function initBlueGarden() {
     if (document.getElementById('blue-garden-container')) return;
 
     const container = document.createElement('div');
     container.id = 'blue-garden-container';
-    // 確保容器不會擋到滑鼠事件
-    container.style.pointerEvents = 'none';
+    container.style.pointerEvents = 'none'; // 絕對不會干擾點擊
+    container.style.zIndex = '0'; // 確保藏在文字底下
     document.body.insertBefore(container, document.body.firstChild);
 
-    // 定義三層花的參數 (數量, CSS類別, 平均大小倍率)
+    // 🌷 5 層花的參數 (數量, CSS類別) - 總共近 70 朵花！
     const layers = [
-        { count: 12, className: 'layer-3', baseScale: 1.2 }, // 背景層 (先種，在最後面)
-        { count: 15, className: 'layer-2', baseScale: 1.0 }, // 中景層
-        { count: 18, className: 'layer-1', baseScale: 0.8 }  // 前景層 (後種，在最前面)
+        { count: 10, className: 'layer-5' }, // 最後面 (最高)
+        { count: 12, className: 'layer-4' },
+        { count: 15, className: 'layer-3' }, 
+        { count: 18, className: 'layer-2' }, 
+        { count: 20, className: 'layer-1' }  // 最前面 (最矮)
     ];
 
-    // 迭代每一層進行種植
     layers.forEach(layer => {
         for (let i = 0; i < layer.count; i++) {
             const flower = document.createElement('div');
             flower.classList.add('blue-spring-flower', layer.className);
 
-            // 隨機屬性
-            const leftPos = Math.random() * 105 - 2.5; // 左右位置 -2.5% ~ 102.5% (稍微超出邊界)
-            const scale = Math.random() * 0.3 + layer.baseScale; // 在基礎大小上微調
-            const rot = Math.random() * 15 - 7.5; // 初始傾斜 -7.5 ~ +7.5 度
-            const duration = Math.random() * 2 + 4; // 搖擺速度 4~6秒 (慢一點比較優雅)
-            const delay = Math.random() * -6; // 隨機延遲
+            const leftPos = Math.random() * 105 - 2.5; 
+            const scale = Math.random() * 0.2 + 0.9; // 縮放比例 0.9 ~ 1.1
+            const rot = Math.random() * 15 - 7.5; 
+            const duration = Math.random() * 2 + 4; 
+            const delay = Math.random() * -6; 
 
-            // 套用 CSS 變數
             flower.style.left = leftPos + '%';
             flower.style.setProperty('--scale', scale);
             flower.style.setProperty('--rot', rot + 'deg');
@@ -1311,6 +1310,7 @@ function clearBlueGardenEffects() {
     // 移除畫面上殘留的粒子
     document.querySelectorAll('.blue-star-particle').forEach(el => el.remove());
 }
+
 
 
 
