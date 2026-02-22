@@ -9,7 +9,7 @@ const songLibrary = {
     "blue_spring": {
         title: "🩵🌸 Blue Spring",
         videoId: "pA75tY1NxcM",
-        bpm: 85,
+        bpm: 42.5,
         file: "lyrics/blue_spring.json" // 指向檔案
     }
 };
