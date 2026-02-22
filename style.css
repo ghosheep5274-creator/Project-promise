@@ -1040,23 +1040,16 @@ body.butter-on #butter-wrapper { opacity: 1; }
 /* --- 實體的寶藍色花朵 (基礎樣式) --- */
 .blue-spring-flower {
     position: absolute;
-    /* 預設大小與底部位置，會被後面的圖層設定覆蓋 */
-    width: 30px;
-    height: 55px;
-    bottom: 0;
+    /* 這裡不用設寬高，交給下面的圖層控制 */
     
-    /* 🌸 關鍵修改：SVG 中的 'stroke' 顏色已改為 '%23228B22' (森林綠) */
     background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 50 Q 45 80 50 100' stroke='%23228B22' stroke-width='5' fill='none'/%3E%3Ccircle cx='50' cy='35' r='12' fill='%235C6BFF' /%3E%3Ccircle cx='35' cy='46' r='12' fill='%233A4AF8' /%3E%3Ccircle cx='65' cy='46' r='12' fill='%233A4AF8' /%3E%3Ccircle cx='40' cy='62' r='12' fill='%232311E6' /%3E%3Ccircle cx='60' cy='62' r='12' fill='%232311E6' /%3E%3Ccircle cx='50' cy='50' r='6' fill='%23ffffff' /%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: bottom center;
-    background-size: contain; /* 讓花朵適應容器大小 */
+    background-size: contain; 
     
-    /* 搖擺的軸心在底部 */
     transform-origin: bottom center;
-    /* 寶藍色的專屬光暈 */
     filter: drop-shadow(0 0 4px rgba(92, 107, 255, 0.6));
     
-    /* 預設為不顯示，由 JS 控制 */
     opacity: 0;
     transition: opacity 1s ease-in-out;
 }
@@ -1066,31 +1059,49 @@ body.blue-garden-active .blue-spring-flower {
     opacity: 1;
 }
 
-/* --- 分層設定：製造景深 --- */
+/* --- 🌷 5 層花海設定 (高一倍版) --- */
 
-/* Layer 1: 前景 (最小，最前面，最清晰) */
+/* Layer 1: 最前面 (最小、最清晰) */
 .layer-1 {
-    z-index: 3;
-    bottom: 5px; /* 貼近底部 */
-    height: 50px; /* 較小 */
-    filter: drop-shadow(0 0 3px rgba(92, 107, 255, 0.8)); /* 光暈較銳利 */
+    z-index: 5;
+    bottom: -5px; 
+    width: 55px; height: 100px; /* 原本的兩倍高 */
+    filter: drop-shadow(0 0 3px rgba(92, 107, 255, 0.8));
 }
 
-/* Layer 2: 中景 (中等大小，在中間) */
+/* Layer 2: 前中景 */
 .layer-2 {
-    z-index: 2;
-    bottom: 15px; /* 稍微高一點 */
-    height: 65px; /* 中等大小 */
-    opacity: 0.9; /* 稍微透明一點點 */
+    z-index: 4;
+    bottom: 10px; 
+    width: 70px; height: 130px; 
+    opacity: 0.95; 
 }
 
-/* Layer 3: 背景 (最大，最後面，稍微模糊) */
+/* Layer 3: 中景 */
 .layer-3 {
+    z-index: 3;
+    bottom: 25px; 
+    width: 85px; height: 160px; 
+    opacity: 0.9; 
+    filter: blur(0.5px); /* 微微景深 */
+}
+
+/* Layer 4: 後中景 */
+.layer-4 {
+    z-index: 2;
+    bottom: 40px; 
+    width: 105px; height: 190px; 
+    opacity: 0.85; 
+    filter: blur(1px);
+}
+
+/* Layer 5: 最後面 (最大朵、最高、稍微模糊製造距離感) */
+.layer-5 {
     z-index: 1;
-    bottom: 25px; /* 最高，但不超過 30px，避免擋到歌詞 */
-    height: 80px; /* 最大朵 */
-    opacity: 0.8; /* 較透明，製造遠處感 */
-    filter: blur(1px) drop-shadow(0 0 5px rgba(92, 107, 255, 0.5)); /* 輕微模糊 */
+    bottom: 55px; 
+    width: 120px; height: 220px; /* 巨無霸尺寸，但會在文字後面 */
+    opacity: 0.75; 
+    filter: blur(1.5px) drop-shadow(0 0 5px rgba(92, 107, 255, 0.5));
 }
 
 /* 花朵搖擺動畫 (維持不變) */
@@ -1130,5 +1141,6 @@ body.blue-garden-active .blue-spring-flower {
         opacity: 0;
     }
 }
+
 
 
