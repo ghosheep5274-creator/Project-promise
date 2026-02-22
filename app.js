@@ -1197,37 +1197,45 @@ function clearPTDBackgroundEffects() {
 
 let blueStarInterval = null;
 
-// 初始化花叢結構 (種植實體花朵)
+// 初始化花叢結構 (種植多層實體花朵)
 function initBlueGarden() {
     if (document.getElementById('blue-garden-container')) return;
 
     const container = document.createElement('div');
     container.id = 'blue-garden-container';
+    // 確保容器不會擋到滑鼠事件
+    container.style.pointerEvents = 'none';
     document.body.insertBefore(container, document.body.firstChild);
 
-    // 🌸 隨機在底部種下 20 朵寶藍色花朵
-    for (let i = 0; i < 20; i++) {
-        const flower = document.createElement('div');
-        flower.classList.add('blue-spring-flower');
+    // 定義三層花的參數 (數量, CSS類別, 平均大小倍率)
+    const layers = [
+        { count: 12, className: 'layer-3', baseScale: 1.2 }, // 背景層 (先種，在最後面)
+        { count: 15, className: 'layer-2', baseScale: 1.0 }, // 中景層
+        { count: 18, className: 'layer-1', baseScale: 0.8 }  // 前景層 (後種，在最前面)
+    ];
 
-        // 隨機屬性：讓花叢看起來很自然
-        const leftPos = Math.random() * 100; // 左右位置 0~100%
-        const scale = Math.random() * 0.4 + 0.8; // 大小 0.8 ~ 1.2 倍
-        const rot = Math.random() * 20 - 10; // 初始傾斜 -10 ~ +10 度
-        const duration = Math.random() * 2 + 3; // 搖擺速度 3~5秒
-        const delay = Math.random() * -5; // 讓大家的動畫錯開
+    // 迭代每一層進行種植
+    layers.forEach(layer => {
+        for (let i = 0; i < layer.count; i++) {
+            const flower = document.createElement('div');
+            flower.classList.add('blue-spring-flower', layer.className);
 
-        // 套用 CSS 變數
-        flower.style.left = leftPos + '%';
-        flower.style.setProperty('--scale', scale);
-        flower.style.setProperty('--rot', rot + 'deg');
-        flower.style.animation = `flowerSway ${duration}s ease-in-out ${delay}s infinite alternate`;
+            // 隨機屬性
+            const leftPos = Math.random() * 105 - 2.5; // 左右位置 -2.5% ~ 102.5% (稍微超出邊界)
+            const scale = Math.random() * 0.3 + layer.baseScale; // 在基礎大小上微調
+            const rot = Math.random() * 15 - 7.5; // 初始傾斜 -7.5 ~ +7.5 度
+            const duration = Math.random() * 2 + 4; // 搖擺速度 4~6秒 (慢一點比較優雅)
+            const delay = Math.random() * -6; // 隨機延遲
 
-        // 比較大朵的花放在前面 (z-index 較高)
-        flower.style.zIndex = Math.floor(scale * 10); 
+            // 套用 CSS 變數
+            flower.style.left = leftPos + '%';
+            flower.style.setProperty('--scale', scale);
+            flower.style.setProperty('--rot', rot + 'deg');
+            flower.style.animation = `flowerSway ${duration}s ease-in-out ${delay}s infinite alternate`;
 
-        container.appendChild(flower);
-    }
+            container.appendChild(flower);
+        }
+    });
 }
 
 // 設定花園階段 (1=花叢, 2=花叢+星點, 0=關閉)
@@ -1303,6 +1311,7 @@ function clearBlueGardenEffects() {
     // 移除畫面上殘留的粒子
     document.querySelectorAll('.blue-star-particle').forEach(el => el.remove());
 }
+
 
 
 
