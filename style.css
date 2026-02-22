@@ -1067,38 +1067,28 @@ body.blue-garden-active #blue-garden-container {
     opacity: 0.6;
 }
 
-/* 第一層 (最前面，最亮)：閃耀的寶藍色 */
-.bush-layer-1 {
-    left: -10%;
-    /* 使用 #3A4AF8 (寶藍色) */
-    background: linear-gradient(to top, #3A4AF8, rgba(58, 74, 248, 0.2));
-    animation: bushSway 8s ease-in-out infinite alternate;
+/* --- 實體的寶藍色魔法花朵 --- */
+.blue-spring-flower {
+    position: absolute;
+    bottom: -5px; /* 種在螢幕最底端 */
+    width: 35px;
+    height: 65px;
+    
+    /* 這裡藏了一朵用程式碼畫出來的 5 瓣寶藍色花朵，中心閃著白光 */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 50 Q 40 80 50 100' stroke='%232311E6' stroke-width='4' fill='none'/%3E%3Ccircle cx='50' cy='35' r='12' fill='%235C6BFF' /%3E%3Ccircle cx='35' cy='46' r='12' fill='%233A4AF8' /%3E%3Ccircle cx='65' cy='46' r='12' fill='%233A4AF8' /%3E%3Ccircle cx='40' cy='62' r='12' fill='%232311E6' /%3E%3Ccircle cx='60' cy='62' r='12' fill='%232311E6' /%3E%3Ccircle cx='50' cy='50' r='6' fill='%23ffffff' /%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    
+    /* 讓搖擺的軸心在花莖底部 */
+    transform-origin: bottom center;
+    /* 寶藍色的專屬光暈 */
+    filter: drop-shadow(0 0 6px rgba(92, 107, 255, 0.8));
 }
 
-/* 第二層 (中間)：帶有一點點紫色的深藍 (Indigo) */
-.bush-layer-2 {
-    left: -25%;
-    bottom: -30%;
-    height: 120%;
-    /* 使用 #2311E6 (偏紫的深邃藍) */
-    background: linear-gradient(to top, #2311E6, rgba(35, 17, 230, 0.1));
-    animation: bushSway 12s ease-in-out infinite alternate-reverse;
-}
-
-/* 第三層 (最後面，最深邃)：午夜深藍 */
-.bush-layer-3 {
-    left: -15%;
-    bottom: -40%;
-    height: 140%;
-    /* 使用 #0A0535 (幾乎是黑色的深藍紫) */
-    background: linear-gradient(to top, #0A0535, rgba(10, 5, 53, 0.5));
-    animation: bushSway 15s ease-in-out infinite alternate;
-}
-
-/* 花叢搖擺動畫 */
-@keyframes bushSway {
-    0% { transform: translateX(0) rotate(0deg); }
-    100% { transform: translateX(-5%) rotate(2deg); }
+/* 每朵花獨立的隨風搖擺動畫 */
+@keyframes flowerSway {
+    0% { transform: rotate(calc(var(--rot) - 12deg)) scale(var(--scale)); }
+    100% { transform: rotate(calc(var(--rot) + 12deg)) scale(var(--scale)); }
 }
 
 /* --- 階段 2：飄散的寶藍色星點 --- */
@@ -1132,3 +1122,4 @@ body.blue-garden-active #blue-garden-container {
         opacity: 0;
     }
 }
+
