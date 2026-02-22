@@ -304,7 +304,8 @@ function render(lyricObj) {
     if (lyricObj.type === 'warning') {
         document.body.classList.add('warning-mode');
         if (lastRenderedText !== lyricObj.text) {
-             lyricBox.innerText = lyricObj.text;
+             //lyricBox.innerText = lyricObj.text;
+             lyricBox.innerHTML = lyricObj.text;
              lyricBox.className = "type-scream"; 
              lastRenderedText = lyricObj.text;
         }
@@ -314,7 +315,8 @@ function render(lyricObj) {
     }
 
     if (lastRenderedText !== lyricObj.text) {
-        lyricBox.innerText = lyricObj.text;
+       // lyricBox.innerText = lyricObj.text;
+        lyricBox.innerHTML = lyricObj.text;
         lyricBox.className = ""; 
         void lyricBox.offsetWidth; // 觸發重繪 (Reflow) 以重啟動畫
         lyricBox.classList.add('active');
@@ -1179,6 +1181,7 @@ function clearPTDBackgroundEffects() {
     stopPTDBackground();
     // 如果需要完全移除元素可以寫在這裡，但通常只需要 stop 即可
 }
+
 
 
 
