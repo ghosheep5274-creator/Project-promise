@@ -1197,29 +1197,37 @@ function clearPTDBackgroundEffects() {
 
 let blueStarInterval = null;
 
-// 初始化花叢結構 (如果不存在就建立)
+// 初始化花叢結構 (種植實體花朵)
 function initBlueGarden() {
     if (document.getElementById('blue-garden-container')) return;
 
     const container = document.createElement('div');
     container.id = 'blue-garden-container';
-
-    // 建立三層花叢
-    const layer1 = document.createElement('div');
-    layer1.classList.add('garden-bush-layer', 'bush-layer-1');
-    
-    const layer2 = document.createElement('div');
-    layer2.classList.add('garden-bush-layer', 'bush-layer-2');
-
-    const layer3 = document.createElement('div');
-    layer3.classList.add('garden-bush-layer', 'bush-layer-3');
-
-    // 依序加入 (後面的層先加，這樣 layer1 才會在最前面)
-    container.appendChild(layer3);
-    container.appendChild(layer2);
-    container.appendChild(layer1);
-
     document.body.insertBefore(container, document.body.firstChild);
+
+    // 🌸 隨機在底部種下 20 朵寶藍色花朵
+    for (let i = 0; i < 20; i++) {
+        const flower = document.createElement('div');
+        flower.classList.add('blue-spring-flower');
+
+        // 隨機屬性：讓花叢看起來很自然
+        const leftPos = Math.random() * 100; // 左右位置 0~100%
+        const scale = Math.random() * 0.4 + 0.8; // 大小 0.8 ~ 1.2 倍
+        const rot = Math.random() * 20 - 10; // 初始傾斜 -10 ~ +10 度
+        const duration = Math.random() * 2 + 3; // 搖擺速度 3~5秒
+        const delay = Math.random() * -5; // 讓大家的動畫錯開
+
+        // 套用 CSS 變數
+        flower.style.left = leftPos + '%';
+        flower.style.setProperty('--scale', scale);
+        flower.style.setProperty('--rot', rot + 'deg');
+        flower.style.animation = `flowerSway ${duration}s ease-in-out ${delay}s infinite alternate`;
+
+        // 比較大朵的花放在前面 (z-index 較高)
+        flower.style.zIndex = Math.floor(scale * 10); 
+
+        container.appendChild(flower);
+    }
 }
 
 // 設定花園階段 (1=花叢, 2=花叢+星點, 0=關閉)
@@ -1295,5 +1303,6 @@ function clearBlueGardenEffects() {
     // 移除畫面上殘留的粒子
     document.querySelectorAll('.blue-star-particle').forEach(el => el.remove());
 }
+
 
 
