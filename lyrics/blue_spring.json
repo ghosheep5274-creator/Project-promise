@@ -1,4 +1,5 @@
 [
+ { "time": 100, "text": "", "type": "blue_garden_1" },
 { "time": 500, "text": "Waiting for beat...<br>also can sing", "type": "wait" },
 {"time":135538,"text":"When we're high, when we're low","type":"sing"},
 {"time":138581,"text":"Neon neul gyeote","type":"sing"},
@@ -8,6 +9,7 @@
 {"time":149822,"text":"Seoneulhaetdeon nae segyee","type":"sing"},
 {"time":152591,"text":"Machimnae pieonan bom","type":"sing"},
 {"time":156514,"text":"Naui blue spring","type":"sing"},
+{ "time": 157850, "text": "", "type": "blue_garden_2" },
 {"time":157914,"text":"(Ooh-ooh-ooh-ooh-ooh-ooh) Flowers, flowers-①","type":"sing"},
 {"time":163582,"text":"(Ooh-ooh-ooh-ooh-ooh-ooh) Flowers, flowers-②","type":"sing"},
 {"time":169223,"text":"(Ooh-ooh-ooh-ooh-ooh-ooh) Flowers, flowers-③","type":"sing"},
