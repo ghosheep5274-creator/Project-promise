@@ -1034,61 +1034,69 @@ body.butter-on #butter-wrapper { opacity: 1; }
 
 
 /* ===========================
-   🌌 Blue Garden Engine (藍色花園引擎)
+   🌌 Blue Garden Engine (實體花海版)
 =========================== */
 
-/* --- 階段 1：搖擺的藍色花叢容器 --- */
-#blue-garden-container {
-    position: fixed;
+/* --- 實體的寶藍色花朵 (基礎樣式) --- */
+.blue-spring-flower {
+    position: absolute;
+    /* 預設大小與底部位置，會被後面的圖層設定覆蓋 */
+    width: 30px;
+    height: 55px;
     bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 40vh; /* 佔據底部 40% 高度 */
-    z-index: 0; /* 放在背景層之上，文字之下 */
-    pointer-events: none; /* 讓點擊穿透 */
+    
+    /* 🌸 關鍵修改：SVG 中的 'stroke' 顏色已改為 '%23228B22' (森林綠) */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 50 Q 45 80 50 100' stroke='%23228B22' stroke-width='5' fill='none'/%3E%3Ccircle cx='50' cy='35' r='12' fill='%235C6BFF' /%3E%3Ccircle cx='35' cy='46' r='12' fill='%233A4AF8' /%3E%3Ccircle cx='65' cy='46' r='12' fill='%233A4AF8' /%3E%3Ccircle cx='40' cy='62' r='12' fill='%232311E6' /%3E%3Ccircle cx='60' cy='62' r='12' fill='%232311E6' /%3E%3Ccircle cx='50' cy='50' r='6' fill='%23ffffff' /%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: contain; /* 讓花朵適應容器大小 */
+    
+    /* 搖擺的軸心在底部 */
+    transform-origin: bottom center;
+    /* 寶藍色的專屬光暈 */
+    filter: drop-shadow(0 0 4px rgba(92, 107, 255, 0.6));
+    
+    /* 預設為不顯示，由 JS 控制 */
     opacity: 0;
-    transition: opacity 1.5s ease-in-out;
-    overflow: hidden;
+    transition: opacity 1s ease-in-out;
 }
 
 /* 當特效啟動時顯示 */
-body.blue-garden-active #blue-garden-container {
+body.blue-garden-active .blue-spring-flower {
     opacity: 1;
 }
 
-/* 花叢圖層 (使用圓形和光暈模擬抽象花叢) */
-.garden-bush-layer {
-    position: absolute;
-    bottom: -20%; /* 稍微藏在畫面外 */
-    width: 150%; /* 比畫面寬，以便左右搖擺 */
-    height: 100%;
-    border-radius: 50% 50% 0 0; /* 上半部是圓的 */
-    filter: blur(20px); /* 強烈模糊製造夢幻感 */
-    opacity: 0.6;
+/* --- 分層設定：製造景深 --- */
+
+/* Layer 1: 前景 (最小，最前面，最清晰) */
+.layer-1 {
+    z-index: 3;
+    bottom: 5px; /* 貼近底部 */
+    height: 50px; /* 較小 */
+    filter: drop-shadow(0 0 3px rgba(92, 107, 255, 0.8)); /* 光暈較銳利 */
 }
 
-/* --- 實體的寶藍色魔法花朵 --- */
-.blue-spring-flower {
-    position: absolute;
-    bottom: -5px; /* 種在螢幕最底端 */
-    width: 35px;
-    height: 65px;
-    
-    /* 這裡藏了一朵用程式碼畫出來的 5 瓣寶藍色花朵，中心閃著白光 */
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 50 Q 40 80 50 100' stroke='%232311E6' stroke-width='4' fill='none'/%3E%3Ccircle cx='50' cy='35' r='12' fill='%235C6BFF' /%3E%3Ccircle cx='35' cy='46' r='12' fill='%233A4AF8' /%3E%3Ccircle cx='65' cy='46' r='12' fill='%233A4AF8' /%3E%3Ccircle cx='40' cy='62' r='12' fill='%232311E6' /%3E%3Ccircle cx='60' cy='62' r='12' fill='%232311E6' /%3E%3Ccircle cx='50' cy='50' r='6' fill='%23ffffff' /%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: bottom center;
-    
-    /* 讓搖擺的軸心在花莖底部 */
-    transform-origin: bottom center;
-    /* 寶藍色的專屬光暈 */
-    filter: drop-shadow(0 0 6px rgba(92, 107, 255, 0.8));
+/* Layer 2: 中景 (中等大小，在中間) */
+.layer-2 {
+    z-index: 2;
+    bottom: 15px; /* 稍微高一點 */
+    height: 65px; /* 中等大小 */
+    opacity: 0.9; /* 稍微透明一點點 */
 }
 
-/* 每朵花獨立的隨風搖擺動畫 */
+/* Layer 3: 背景 (最大，最後面，稍微模糊) */
+.layer-3 {
+    z-index: 1;
+    bottom: 25px; /* 最高，但不超過 30px，避免擋到歌詞 */
+    height: 80px; /* 最大朵 */
+    opacity: 0.8; /* 較透明，製造遠處感 */
+    filter: blur(1px) drop-shadow(0 0 5px rgba(92, 107, 255, 0.5)); /* 輕微模糊 */
+}
+
+/* 花朵搖擺動畫 (維持不變) */
 @keyframes flowerSway {
-    0% { transform: rotate(calc(var(--rot) - 12deg)) scale(var(--scale)); }
-    100% { transform: rotate(calc(var(--rot) + 12deg)) scale(var(--scale)); }
+    0% { transform: rotate(calc(var(--rot) - 8deg)) scale(var(--scale)); }
+    100% { transform: rotate(calc(var(--rot) + 8deg)) scale(var(--scale)); }
 }
 
 /* --- 階段 2：飄散的寶藍色星點 --- */
@@ -1122,4 +1130,5 @@ body.blue-garden-active #blue-garden-container {
         opacity: 0;
     }
 }
+
 
