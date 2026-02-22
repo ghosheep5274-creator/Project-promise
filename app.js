@@ -1306,10 +1306,18 @@ function createBlueStar() {
 
 // 清除所有 Blue Garden 特效 (用於 finishGame 或 resetToTitle)
 function clearBlueGardenEffects() {
-    setBlueGardenStage(0); // 關閉 CSS 狀態並停止計時器
-    // 移除畫面上殘留的粒子
+    setBlueGardenStage(0); // 關閉 CSS 狀態並停止星點計時器
+    
+    // ✂️ 關鍵新增：直接把整座花園連根拔起，絕對不留殘影！
+    const gardenContainer = document.getElementById('blue-garden-container');
+    if (gardenContainer) {
+        gardenContainer.remove(); 
+    }
+    
+    // 移除畫面上殘留的星點粒子
     document.querySelectorAll('.blue-star-particle').forEach(el => el.remove());
 }
+
 
 
 
