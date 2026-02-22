@@ -117,7 +117,10 @@ const effectCommands = {
     'purpleballoons_2': () =>startPurpleBalloons(2),
     'purpleballoons_stop': () =>stopPurpleBalloons(),
     'ptdbackground_start': () =>startPTDBackground(),
-    'ptdbackground_stop': () =>stopPTDBackground()
+    'ptdbackground_stop': () =>stopPTDBackground(),
+    'blue_garden_1': () => setBlueGardenStage(1),
+    'blue_garden_2': () => setBlueGardenStage(2),
+    'blue_garden_stop': () => setBlueGardenStage(0)
 };
 
 
@@ -432,6 +435,8 @@ function finishGame() {
     clearDynamiteEffects();
     clearBalloonsEffects();
     clearPTDBackgroundEffects();
+    clearBlueGardenEffects();
+
     
     
     // 延遲後回首頁
@@ -462,6 +467,8 @@ function resetToTitle() {
     clearDynamiteEffects();
     clearBalloonsEffects();
     clearPTDBackgroundEffects();
+    clearBlueGardenEffects();
+
     updatePauseButton(false);
 }
 
@@ -1184,5 +1191,109 @@ function clearPTDBackgroundEffects() {
 
 
 
+// ===========================
+// 🌌 Blue Garden Engine (藍色花園引擎)
+// ===========================
+
+let blueStarInterval = null;
+
+// 初始化花叢結構 (如果不存在就建立)
+function initBlueGarden() {
+    if (document.getElementById('blue-garden-container')) return;
+
+    const container = document.createElement('div');
+    container.id = 'blue-garden-container';
+
+    // 建立三層花叢
+    const layer1 = document.createElement('div');
+    layer1.classList.add('garden-bush-layer', 'bush-layer-1');
+    
+    const layer2 = document.createElement('div');
+    layer2.classList.add('garden-bush-layer', 'bush-layer-2');
+
+    const layer3 = document.createElement('div');
+    layer3.classList.add('garden-bush-layer', 'bush-layer-3');
+
+    // 依序加入 (後面的層先加，這樣 layer1 才會在最前面)
+    container.appendChild(layer3);
+    container.appendChild(layer2);
+    container.appendChild(layer1);
+
+    document.body.insertBefore(container, document.body.firstChild);
+}
+
+// 設定花園階段 (1=花叢, 2=花叢+星點, 0=關閉)
+function setBlueGardenStage(stage) {
+    initBlueGarden();
+
+    if (stage >= 1) {
+        // 啟動階段 1：顯示搖擺花叢
+        document.body.classList.add('blue-garden-active');
+        console.log("🌌 花園引擎：階段 1 (花叢現身)");
+    }
+
+    if (stage === 2) {
+        // 啟動階段 2：開始生成星點
+        startBlueStars();
+        console.log("🌌 花園引擎：階段 2 (星光飄散)");
+    } else if (stage < 2) {
+        // 如果回到階段 1 或關閉，要停止星點生成
+        stopBlueStars();
+    }
+
+    if (stage === 0) {
+        // 關閉所有特效
+        document.body.classList.remove('blue-garden-active');
+        stopBlueStars();
+        console.log("🌌 花園引擎：關閉");
+    }
+}
+
+// --- 星點系統 ---
+function startBlueStars() {
+    if (blueStarInterval) return;
+    // 每 300ms 產生一顆星點 (適中密度)
+    blueStarInterval = setInterval(createBlueStar, 300);
+}
+
+function stopBlueStars() {
+    if (blueStarInterval) {
+        clearInterval(blueStarInterval);
+        blueStarInterval = null;
+    }
+}
+
+// 產生單顆藍色星點
+function createBlueStar() {
+    const star = document.createElement('div');
+    star.classList.add('blue-star-particle');
+
+    // 隨機起始水平位置 (畫面寬度的 10% ~ 90%)
+    const startLeft = Math.random() * 80 + 10; 
+    star.style.left = `${startLeft}vw`;
+
+    // 隨機飄動參數
+    const duration = Math.random() * 4 + 6 + 's'; // 6~10秒飄到頂
+    // 左右偏移量 (-80px 到 +80px)
+    const drift = (Math.random() * 160 - 80) + 'px'; 
+
+    // 設定 CSS 變數
+    star.style.setProperty('--duration', duration);
+    star.style.setProperty('--drift', drift);
+
+    document.body.appendChild(star);
+
+    // 動畫結束後移除
+    setTimeout(() => {
+        star.remove();
+    }, parseFloat(duration) * 1000 + 1000);
+}
+
+// 清除所有 Blue Garden 特效 (用於 finishGame 或 resetToTitle)
+function clearBlueGardenEffects() {
+    setBlueGardenStage(0); // 關閉 CSS 狀態並停止計時器
+    // 移除畫面上殘留的粒子
+    document.querySelectorAll('.blue-star-particle').forEach(el => el.remove());
+}
 
 
