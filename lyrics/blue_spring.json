@@ -1,5 +1,5 @@
 [
-{ "time": 500, "text": "Waiting for beat...also can sing", "type": "wait" },
+{ "time": 500, "text": "Waiting for beat...<br>also can sing", "type": "wait" },
 {"time":135538,"text":"When we're high, when we're low","type":"sing"},
 {"time":138581,"text":"Neon neul gyeote","type":"sing"},
 {"time":141047,"text":"All my youth, gadeuk cha","type":"sing"},
