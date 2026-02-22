@@ -1032,3 +1032,103 @@ body.butter-on #butter-wrapper { opacity: 1; }
 }
 
 
+
+/* ===========================
+   🌌 Blue Garden Engine (藍色花園引擎)
+=========================== */
+
+/* --- 階段 1：搖擺的藍色花叢容器 --- */
+#blue-garden-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40vh; /* 佔據底部 40% 高度 */
+    z-index: 0; /* 放在背景層之上，文字之下 */
+    pointer-events: none; /* 讓點擊穿透 */
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    overflow: hidden;
+}
+
+/* 當特效啟動時顯示 */
+body.blue-garden-active #blue-garden-container {
+    opacity: 1;
+}
+
+/* 花叢圖層 (使用圓形和光暈模擬抽象花叢) */
+.garden-bush-layer {
+    position: absolute;
+    bottom: -20%; /* 稍微藏在畫面外 */
+    width: 150%; /* 比畫面寬，以便左右搖擺 */
+    height: 100%;
+    border-radius: 50% 50% 0 0; /* 上半部是圓的 */
+    filter: blur(20px); /* 強烈模糊製造夢幻感 */
+    opacity: 0.6;
+}
+
+/* 第一層 (最前面，最亮)：閃耀的寶藍色 */
+.bush-layer-1 {
+    left: -10%;
+    /* 使用 #3A4AF8 (寶藍色) */
+    background: linear-gradient(to top, #3A4AF8, rgba(58, 74, 248, 0.2));
+    animation: bushSway 8s ease-in-out infinite alternate;
+}
+
+/* 第二層 (中間)：帶有一點點紫色的深藍 (Indigo) */
+.bush-layer-2 {
+    left: -25%;
+    bottom: -30%;
+    height: 120%;
+    /* 使用 #2311E6 (偏紫的深邃藍) */
+    background: linear-gradient(to top, #2311E6, rgba(35, 17, 230, 0.1));
+    animation: bushSway 12s ease-in-out infinite alternate-reverse;
+}
+
+/* 第三層 (最後面，最深邃)：午夜深藍 */
+.bush-layer-3 {
+    left: -15%;
+    bottom: -40%;
+    height: 140%;
+    /* 使用 #0A0535 (幾乎是黑色的深藍紫) */
+    background: linear-gradient(to top, #0A0535, rgba(10, 5, 53, 0.5));
+    animation: bushSway 15s ease-in-out infinite alternate;
+}
+
+/* 花叢搖擺動畫 */
+@keyframes bushSway {
+    0% { transform: translateX(0) rotate(0deg); }
+    100% { transform: translateX(-5%) rotate(2deg); }
+}
+
+/* --- 階段 2：飄散的寶藍色星點 --- */
+.blue-star-particle {
+    position: fixed;
+    bottom: 10vh; 
+    width: 4px;
+    height: 4px;
+    background-color: #ffffff; /* 核心依然是耀眼的白光 */
+    border-radius: 50%;
+    /* 光暈改成寶藍色系疊加 */
+    box-shadow: 0 0 10px #5C6BFF, 0 0 20px #3A4AF8, 0 0 30px #ffffff;
+    pointer-events: none;
+    z-index: 1; 
+    animation: floatUpDrift var(--duration) linear forwards;
+}
+
+/* 星點向上飄+左右搖擺動畫 */
+@keyframes floatUpDrift {
+    0% {
+        transform: translateX(0) scale(0.5);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+        transform: translateX(var(--drift)) scale(1);
+    }
+    100% {
+        bottom: 110vh; /* 飄出畫面頂部 */
+        transform: translateX(calc(var(--drift) * 2)) scale(0.2);
+        opacity: 0;
+    }
+}
